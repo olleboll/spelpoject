@@ -44,6 +44,8 @@ public class Level {
 		objects.add(tree);
 		tree = new GameObject( 64, 320, 128, 128, ObjectType.Tree);
 		objects.add(tree);
+		tree = new GameObject( 64, 384, 128, 128, ObjectType.Tree);
+		objects.add(tree);
 		System.out.println(objects.size());
 	}
 	// här kan du läsa in på samma sätt som förut tror jag. Kolla din array med färger och
