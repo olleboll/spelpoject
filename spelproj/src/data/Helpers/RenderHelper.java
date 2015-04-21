@@ -5,14 +5,14 @@ import java.util.Random;
 public class RenderHelper {
 	
 	private static Random rand = new Random();
-	private static float last = 0;
+	private static int last = 0;
 	
-	public static float renderz(){
-		float f = rand.nextFloat();
-		while(last == f * 10){
-			f = rand.nextFloat();
+	public static int renderz(){
+		int f = rand.nextInt(5);
+		while(last == f || f == 0){
+			f = rand.nextInt(5);
 		}
-		last = f * 10;
+		last = f;
 		return last;
 	}
 

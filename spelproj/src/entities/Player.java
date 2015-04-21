@@ -35,11 +35,41 @@ public class Player extends Entity {
 		left= Keyboard.isKeyDown(Keyboard.KEY_A);
 		right = Keyboard.isKeyDown(Keyboard.KEY_D);
 		
-		if(!collision()){
-			move(up, down, left, right);
+		float ya, xa;
+		ya = speed;
+		xa = speed;
+		boolean moved = false;
+		if(left && !level.getTile(x + width/2- xa,y + height/2).solid()&& !outOfBounds(x - xa, y)){
+			x = x - xa;
+			dir = 3;
+			//move(dir);
+			setSpeed(level.getTile(x + width/2- xa,y + height/2).getSpeed(speed));
+			moved = true;
 		}
-		
-		
+		if(right && !level.getTile(x + width/2+ xa,y + height/2).solid()&& !outOfBounds(x + xa, y)){
+			x = x + xa;
+			dir = 2;
+			//move(dir);
+			setSpeed(level.getTile(x + width/2+ xa,y + height/2).getSpeed(speed));
+			moved = true;
+		}
+		if(up && !level.getTile(x + width/2, y + height/2 - ya).solid() && !outOfBounds(x, y - ya)){
+			y = y - ya;
+			z -= ya;
+			dir = 1;
+			//move(dir);
+			setSpeed(level.getTile(x + width/2+ xa,y + height/2).getSpeed(speed));
+			moved = true;
+		}
+		if(down && !level.getTile(x + width/2, y + height/2 + ya).solid()&& !outOfBounds(x, y + ya)){
+			y = y + ya;
+			z += ya;
+			dir = 0;
+			setSpeed(level.getTile(x + width/2+ xa,y + height/2).getSpeed(speed));
+			moved = true;
+		}
+		moving = moved;
+		updateTex();
 	}
 	
 	private boolean collision() {
@@ -116,6 +146,7 @@ public class Player extends Entity {
 		textures[9] = QuickLoadPlayerTex("spel_vanster");
 		textures[10] = QuickLoadPlayerTex("spel_vanster_1");
 		textures[11] = QuickLoadPlayerTex("spel_vanster_2");
+		texture = textures[0];
 		return textures;
 	}
 	

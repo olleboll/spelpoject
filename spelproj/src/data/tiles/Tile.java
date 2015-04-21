@@ -1,8 +1,13 @@
 package data.tiles;
 
+import java.util.ArrayList;
+
+import gameobjects.GameObject;
+
 import org.newdawn.slick.opengl.Texture;
 
 import data.Main;
+import data.Helpers.renderableObj;
 import static data.Helpers.Graphics.*;
 
 public class Tile {
@@ -11,6 +16,7 @@ public class Tile {
 	private Texture texture;
 	private TileType type;
 	private boolean solid = false;
+	public ArrayList<GameObject> obj;
 
 	public Tile(float x, float y, float width, float height, TileType type) {
 		this.x = x;
@@ -95,8 +101,20 @@ public class Tile {
 		this.type = type;
 	}
 
-	public float getSpeed() {
-		return type.speed;
+	public float getSpeed(float s) {
+		
+		if(obj == null && s <=type.speed){
+			return type.speed;
+		}
+		return 2;
+	}
+
+	public void setObj(GameObject o) {
+		if(obj == null){
+			obj = new ArrayList<GameObject>();
+		}
+		obj.add(o);
+		
 	}
 
 }

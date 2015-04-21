@@ -9,6 +9,8 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
@@ -33,17 +35,18 @@ public class Graphics {
 			e.printStackTrace();
 		}
 		glEnable(GL_DEPTH_TEST);
+		//glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		//glClearDepth(-WorldSizeY);
+		glEnable(GL_TEXTURE_2D);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-
 		// här bör du fixa djujp i skiten
 		glOrtho(0, WIDTH, HEIGHT, 0, -WorldSizeY - 1, WorldSizeY + 1);
 		// glOrtho(0, WIDTH * WIDTH, HEIGHT * HEIGHT, 0, -HEIGHT -1 , HEIGHT +
 		// 1);
 		glMatrixMode(GL_MODELVIEW);
-		glEnable(GL_TEXTURE_2D);
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		offsetMaxX = WorldSizeX - Main.WIDTH;
 		offsetMaxY = WorldSizeY - Main.HEIGHT;
@@ -77,7 +80,6 @@ public class Graphics {
 				scaley = height / width;
 			}
 		}
-
 		tex.bind();
 		glTranslatef(camX, camY, 0);
 		glTranslatef(x, y, z);
@@ -182,6 +184,14 @@ public class Graphics {
 
 	}
 
+	public static void drawText(TrueTypeFont font) {
+		Color.white.bind();
+		glTranslatef(100, 50, WorldSizeY - 1);
+		font.drawString(100, 50, "THE LIGHTWEIGHT JAVA GAMES LIBRARY",
+				Color.yellow);
+		glLoadIdentity();
+	}
+
 	public static Texture loadTexture(String path, String filetype) {
 		Texture tex = null;
 		InputStream in = ResourceLoader.getResourceAsStream(path);
@@ -203,6 +213,12 @@ public class Graphics {
 	public static Texture QuickLoadPlayerTex(String name) {
 		Texture tex = null;
 		tex = loadTexture("res\\textures\\Player\\" + name + ".png", "PNG");
+		return tex;
+	}
+
+	public static Texture QuickLoadEntityTex(String name) {
+		Texture tex = null;
+		tex = loadTexture("res\\textures\\Entities\\" + name + ".png", "PNG");
 		return tex;
 	}
 

@@ -5,6 +5,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.newdawn.slick.opengl.Texture;
 
+import text.Text;
 import data.level.Level;
 import data.tiles.Tile;
 import data.tiles.TileType;
@@ -14,6 +15,7 @@ import static org.lwjgl.opengl.GL11.*;
 public class Main {
 	
 	public Level level;
+	public Text text;
 	private String Spawn = "/textures/Level/level.png";
 	
 	public static final int WIDTH = 1080, HEIGHT = WIDTH * 9 / 16;
@@ -24,7 +26,9 @@ public class Main {
 		
 		
 		level = new Level(Spawn);
+		text = new Text();
 		//level.setPlayerInput(key);
+		
 
 		while(!Display.isCloseRequested()){
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -32,7 +36,10 @@ public class Main {
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			
 			level.update();
+			
 			level.draw();
+			
+			//text.draw();
 
 			Display.update();
 			Display.sync(60);
