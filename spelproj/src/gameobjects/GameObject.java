@@ -5,21 +5,22 @@ import static data.Helpers.Graphics.*;
 import org.newdawn.slick.opengl.Texture;
 
 import data.Main;
+import data.Helpers.RenderHelper;
 import data.Helpers.renderableObj;
 
 
 public class GameObject extends renderableObj{
 	
-	private float x, y, width, height;
+	private float  y, width, height;
 	private Texture texture;
 	private ObjectType type;
 	private boolean solid = true;
+	public float renderz = 0;
 
-	public GameObject(float x, float y, float width, float height, ObjectType type) {
+	public GameObject(float x, float y, float z,  float width, float height, ObjectType type) {
 		this.x = x;
 		this.y = y;
-		this.z = -Main.HEIGHT + y + height;
-
+		this.z = -Main.HEIGHT + y + height + z;
 		this.width = width;
 		this.height = height;
 		this.type = type;
@@ -82,7 +83,7 @@ public class GameObject extends renderableObj{
 
 	public float getZ() {
 		// TODO Auto-generated method stub
-		return z;
+		return z + renderz;
 	}
 
 

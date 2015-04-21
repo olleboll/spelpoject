@@ -14,6 +14,7 @@ import static org.lwjgl.opengl.GL11.*;
 public class Main {
 	
 	public Level level;
+	private String Spawn = "/textures/Level/level.png";
 	
 	public static final int WIDTH = 1080, HEIGHT = WIDTH * 9 / 16;
 	
@@ -22,7 +23,7 @@ public class Main {
 		beginSession();
 		
 		
-		level = new Level();
+		level = new Level(Spawn);
 		//level.setPlayerInput(key);
 
 		while(!Display.isCloseRequested()){

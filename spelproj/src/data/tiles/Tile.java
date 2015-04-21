@@ -10,6 +10,7 @@ public class Tile {
 	private float x, y, z, width, height;
 	private Texture texture;
 	private TileType type;
+	private boolean solid = false;
 
 	public Tile(float x, float y, float width, float height, TileType type) {
 		this.x = x;
@@ -22,7 +23,28 @@ public class Tile {
 	}
 
 	public void draw() {
-		drawQuadTex(texture, x, y, z, width, height);
+		if (type.flip != 0) {
+			if (type.flip == 1) {
+				drawQuadTexFlip90(texture, x, y, z, width, height);
+			}
+			if (type.flip == 2) {
+				drawQuadTexFlip180(texture, x, y, z, width, height);
+			}
+			if (type.flip == 3) {
+				drawQuadTexFlip270(texture, x, y, z, width, height);
+			}
+		}else{
+			drawQuadTex(texture, x, y, z, width, height);
+		}
+
+	}
+
+	public void setSolid(boolean s) {
+		solid = s;
+	}
+
+	public boolean solid() {
+		return solid;
 	}
 
 	public float getX() {
@@ -71,6 +93,10 @@ public class Tile {
 
 	public void setType(TileType type) {
 		this.type = type;
+	}
+
+	public float getSpeed() {
+		return type.speed;
 	}
 
 }
