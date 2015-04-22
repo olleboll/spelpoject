@@ -79,8 +79,8 @@ public class Level {
 		objects.add(rabbit);
 		entities.add(rabbit);
 		rabbit.setPlayer(player);
-		player.setSpeed(3);
-		rabbit.setSpeed(3);
+		player.setTopSpeed(5);
+		rabbit.setTopSpeed(5);
 		camX = player.getX() - Main.WIDTH / 2;
 		camY = player.getY() - Main.HEIGHT / 2;	
 	}

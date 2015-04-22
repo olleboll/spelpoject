@@ -66,8 +66,11 @@ public class Entity extends renderableObj{
 	}
 	
 	protected void setSpeed(float s){
-		topSpeed = s;
 		speed = s;
+	}
+	
+	public void setTopSpeed(float s){
+		topSpeed = s;
 	}
 
 	public float getZ() {
