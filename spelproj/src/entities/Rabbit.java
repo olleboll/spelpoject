@@ -77,14 +77,15 @@ public class Rabbit extends Entity {
 			y = y - ya;
 			z -= ya;
 			dir = 1;
-			setSpeed(level.getTile(x + width/2+ xa,y + height/2).getSpeed(speed));
+			setSpeed(level.getTile(x + width/2,y + height/2 - ya).getSpeed(speed));
 			moved = true;
 		}
 		if(down && !level.getTile(x + width/2, y + height/2 + ya).solid()&& !outOfBounds(x, y + ya)){
 			y = y + ya;
 			z += ya;
 			dir = 0;
-			setSpeed(level.getTile(x + width/2+ xa,y + height/2).getSpeed(speed));		
+			System.out.println(level.getTile(x + width/2,y + height/2 + ya).getType());
+			setSpeed(level.getTile(x + width/2,y + height/2 + ya).getSpeed(speed));		
 			moved = true;
 		}
 		moving = moved;
@@ -175,18 +176,18 @@ public class Rabbit extends Entity {
 	
 	public Texture[] loadTexture(){
 		textures = new Texture[12];
-		textures[0] = QuickLoadEntityTex("kanin_64");
-		textures[1] = QuickLoadPlayerTex("spel_fram_1");
-		textures[2] = QuickLoadPlayerTex("spel_fram_2");
-		textures[3] = QuickLoadPlayerTex("spel_bakifran");
-		textures[4] = QuickLoadPlayerTex("spel_bakifran_1");
-		textures[5] = QuickLoadPlayerTex("spel_bakifran_2");
-		textures[6] = QuickLoadPlayerTex("spel_hoger");
-		textures[7] = QuickLoadPlayerTex("spel_hoger_1");
-		textures[8] = QuickLoadPlayerTex("spel_hoger_2");
-		textures[9] = QuickLoadPlayerTex("spel_vanster");
-		textures[10] = QuickLoadPlayerTex("spel_vanster_1");
-		textures[11] = QuickLoadPlayerTex("spel_vanster_2");
+		textures[0] = QuickLoadEntityTex("kanin_fram");
+		textures[1] = QuickLoadEntityTex("kanin_fram");
+		textures[2] = QuickLoadEntityTex("kanin_fram");
+		textures[3] = QuickLoadEntityTex("kanin_bak");
+		textures[4] = QuickLoadEntityTex("kanin_bak");
+		textures[5] = QuickLoadEntityTex("kanin_bak");
+		textures[6] = QuickLoadEntityTex("kanin_hoger");
+		textures[7] = QuickLoadEntityTex("kanin_hoger");
+		textures[8] = QuickLoadEntityTex("kanin_hoger");
+		textures[9] = QuickLoadEntityTex("kanin_vanster");
+		textures[10] = QuickLoadEntityTex("kanin_vanster");
+		textures[11] = QuickLoadEntityTex("kanin_vanster");
 		texture = textures[0];
 		return textures;
 	}

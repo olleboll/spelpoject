@@ -40,6 +40,8 @@ public class Graphics {
 		glEnable(GL_TEXTURE_2D);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+		glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 		// här bör du fixa djujp i skiten
@@ -80,9 +82,9 @@ public class Graphics {
 				scaley = height / width;
 			}
 		}
-		tex.bind();
-		glTranslatef(camX, camY, 0);
+		tex.bind();		
 		glTranslatef(x, y, z);
+		glTranslatef(camX, camY, 0);
 		glBegin(GL_QUADS);
 		glTexCoord2f(0, 0);
 		glVertex2f(0, 0);
@@ -196,7 +198,7 @@ public class Graphics {
 		Texture tex = null;
 		InputStream in = ResourceLoader.getResourceAsStream(path);
 		try {
-			tex = TextureLoader.getTexture(filetype, in);
+			tex = TextureLoader.getTexture(filetype, in,  GL_NEAREST);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -80,7 +80,10 @@ public class GameObject extends renderableObj{
 	public void setType(ObjectType type) {
 		this.type = type;
 	}
-
+	
+	public float getSpeed(){
+		return type.speed;
+	}
 	public float getZ() {
 		// TODO Auto-generated method stub
 		return z + renderz;

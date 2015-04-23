@@ -1,12 +1,16 @@
 package entities;
 
 import static data.Helpers.Graphics.drawQuadTex;
+import gameobjects.GameObject;
+import gameobjects.ObjectType;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.util.Rectangle;
 import org.newdawn.slick.opengl.Texture;
 
 import data.Helpers.Graphics;
 import data.level.Level;
+import data.tiles.Tile;
 import static data.Helpers.Graphics.*;
 
 
@@ -15,6 +19,7 @@ public class Player extends Entity {
 
 	public boolean solid = true;
 	private int anim = 0;
+	private GameObject rocket;
 
 	public Player(float x, float y, float z, float width, float height, Texture texture, Level level) {
 		super(x, y, z, width, height, texture, level);
@@ -68,8 +73,23 @@ public class Player extends Entity {
 			setSpeed(level.getTile(x + width/2+ xa,y + height/2).getSpeed(speed));
 			moved = true;
 		}
+		
+		checkwin();
+		
 		moving = moved;
 		updateTex();
+	}
+	
+	private void checkwin(){
+		Tile t = level.getTile(x + width/2,y + height/2);
+		if(t.obj != null){
+			if(t.obj.get(0).getType() == ObjectType.Rocket){
+				topSpeed = 0;
+				speed = 0;
+				System.out.println("wogooo!!");
+			}
+		}
+		
 	}
 	
 	private boolean collision() {
@@ -152,6 +172,11 @@ public class Player extends Entity {
 	
 	public float getY(){
 		return y;
+	}
+
+	public void setGoal(GameObject rocket) {
+		this.rocket = rocket;
+		
 	}
 
 	

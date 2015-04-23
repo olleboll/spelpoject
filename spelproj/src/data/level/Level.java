@@ -66,26 +66,29 @@ public class Level {
 				setUpObjects(x, y);
 			}
 		}
-
+		System.out.println("Hitta och gå in i Raketen!!!");
 	}
 
 	
 
 	private void setUpEntities() {
 		player = new Player(650,800, -400, 64, 64, null, this);
+		player.setTopSpeed(5);
 		objects.add(player);
 		entities.add(player);
 		rabbit = new Rabbit(720,800, -400, 64, 64, null, this);
 		objects.add(rabbit);
 		entities.add(rabbit);
 		rabbit.setPlayer(player);
-		player.setTopSpeed(5);
 		rabbit.setTopSpeed(5);
-		camX = player.getX() - Main.WIDTH / 2;
-		camY = player.getY() - Main.HEIGHT / 2;	
+		
+		
+		camX = player.getX() + (player.getWidth() / 2) - Main.WIDTH / 2;
+		camY = player.getY() + (player.getHeight() / 2) - Main.HEIGHT / 2;
 	}
 
 	public void update() {
+		
 		for(int i = 0 ; i < entities.size(); i++){
 			Entity e = entities.get(i);
 			e.update();
@@ -106,11 +109,12 @@ public class Level {
 		} else if (camY < Graphics.offsetMinY) {
 			camY = Graphics.offsetMinY;
 		}
+		Graphics.setCamera(-camX, -camY);
 	}
 
 	public void draw() {
 
-		Graphics.setCamera(-camX, -camY);
+		
 		drawTiles();
 		drawObjects();
 
@@ -144,10 +148,10 @@ public class Level {
 		ArrayList<renderableObj> obj = new ArrayList<renderableObj>();
 		for(int x = (int) camX / SIZE - 4; x < camX/SIZE + Main.WIDTH/SIZE + 4; x++){
 			for(int y = (int) camY / SIZE - 4; y < camY/SIZE + Main.HEIGHT/SIZE + 4; y++){
-				if(x < 0){
+				if(x < 0 || x > 63){
 					break;
 				}
-				if(y >= 0){
+				if(y >= 0 && y < 64){
 					if(map[x][y].obj != null){
 						for(int i = 0; i<map[x][y].obj.size();i++ ){
 							obj.add(map[x][y].obj.get(i));
@@ -213,25 +217,43 @@ public class Level {
 			zoff = RenderHelper.renderz();
 			if (levelpixels[x + y * SIZE] == -20791) {
 				zoff = RenderHelper.renderz()*zoffH;
-				GameObject flower = new GameObject(x * SIZE - 16, y * SIZE  -32, zoff, 64, 64,
+				GameObject flower = new GameObject(x * SIZE - 16, y * SIZE  -32, zoff, 54, 64,
 						ObjectType.Flower);
 				objects.add(flower);
 				map[x][y].setObj(flower);			
-
+				/*
 				zoff = RenderHelper.renderz()* zoffH;
-				GameObject flower2 = new GameObject(x * SIZE + 16 , y * SIZE - 32, zoff, 64, 64,
+				GameObject flower2 = new GameObject(x * SIZE + 16 , y * SIZE - 32, zoff, 32, 32,
 						ObjectType.Flower);
 				objects.add(flower2);
 				map[x][y].setObj(flower2);
 				
 				zoff = RenderHelper.renderz()* zoffH;
-				GameObject flower3 = new GameObject(x * SIZE - 16, y * SIZE , zoff, 64, 64,
+				GameObject flower3 = new GameObject(x * SIZE - 16, y * SIZE , zoff, 32, 32,
 						ObjectType.Flower);
 				objects.add(flower3);
 				map[x][y].setObj(flower3);
 
 				zoff = RenderHelper.renderz()* zoffH;
-				GameObject flower4 = new GameObject(x * SIZE + 16, y * SIZE , zoff, 64, 64,
+				GameObject flower4 = new GameObject(x * SIZE + 16, y * SIZE , zoff, 32, 32,
+						ObjectType.Flower);
+				objects.add(flower4);
+				map[x][y].setObj(flower4);*/
+				
+				zoff = RenderHelper.renderz()* zoffH;
+				GameObject flower2 = new GameObject(x * SIZE + 16 , y * SIZE - 32, zoff, 54, 64,
+						ObjectType.Flower);
+				objects.add(flower2);
+				map[x][y].setObj(flower2);
+				
+				zoff = RenderHelper.renderz()* zoffH;
+				GameObject flower3 = new GameObject(x * SIZE - 16, y * SIZE , zoff, 54, 64,
+						ObjectType.Flower);
+				objects.add(flower3);
+				map[x][y].setObj(flower3);
+
+				zoff = RenderHelper.renderz()* zoffH;
+				GameObject flower4 = new GameObject(x * SIZE + 16, y * SIZE , zoff, 54, 64,
 						ObjectType.Flower);
 				objects.add(flower4);
 				map[x][y].setObj(flower4);
@@ -247,6 +269,15 @@ public class Level {
 				map[x][y].setSolid(true);
 				map[x][y].setObj(tree);
 				// map[x + 1][y + 2].setSolid(true);
+			}else if (levelpixels[x + y * SIZE] == -16777216) {
+				// 64
+				GameObject rocket = new GameObject(x * SIZE - 16, y * SIZE - 128, zoff, 134, 256,
+						ObjectType.Rocket);
+				map[x][y].setObj(rocket);
+				//map[x][y].setSolid(true);
+				player.setGoal(rocket);
+				// 32
+				//map[x][y] = new Tile(x * 32, y * 32, 32, 32, TileType.Dirt_ldr);
 			}
 
 		}
@@ -274,7 +305,7 @@ public class Level {
 			 * map.length; j++) { map[i][j] = new Tile(i * 64, j * 64, 64, 64,
 			 * TileType.Grass); //map[x][y] = levelpixels[x + y * SIZE]; } }
 			 */
-			//System.out.println(levelpixels[x + y * SIZE]);
+			System.out.println(levelpixels[x + y * SIZE]);
 			if (levelpixels[x + y * SIZE] == -20791) {
 				// Tiles.add(x + y * width, Tile.flower);
 				map[x][y] = new Tile(x * 64, y * 64, 64, 64, TileType.Grass);
@@ -316,6 +347,11 @@ public class Level {
 				map[x][y] = new Tile(x * 64, y * 64, 64, 64, TileType.Dirt_D4);
 				// 32
 				//map[x][y] = new Tile(x * 32, y * 32, 32, 32, TileType.Dirt_ldr);
+			}else if (levelpixels[x + y * SIZE] == -16777216) {
+				// 64
+				map[x][y] = new Tile(x * 64, y * 64, 64, 64, TileType.Dirt);
+				// 32
+				//map[x][y] = new Tile(x * 32, y * 32, 32, 32, TileType.Dirt_ldr);
 			} else {
 				// 64
 				map[x][y] = new Tile(x * 64, y * 64, 64, 64, TileType.Grass);
@@ -323,5 +359,7 @@ public class Level {
 				//map[x][y] = new Tile(x * 32, y * 32, 32, 32, TileType.Grass);
 			}
 		}
+
+		
 
 }

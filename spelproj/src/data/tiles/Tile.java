@@ -103,10 +103,13 @@ public class Tile {
 
 	public float getSpeed(float s) {
 		
-		if(obj == null && s <=type.speed){
-			return type.speed;
+		if(obj == null) {
+			if(s <=type.speed){
+				return type.speed;
+			}
+			return s;
 		}
-		return 2;
+		return obj.get(0).getSpeed();
 	}
 
 	public void setObj(GameObject o) {

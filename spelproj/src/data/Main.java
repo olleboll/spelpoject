@@ -32,17 +32,17 @@ public class Main {
 
 		while(!Display.isCloseRequested()){
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			glEnable(GL_BLEND);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			
 			
 			level.update();
 			
 			level.draw();
 			
 			//text.draw();
-
+			
 			Display.update();
 			Display.sync(60);
+			
 			
 		}
 		
