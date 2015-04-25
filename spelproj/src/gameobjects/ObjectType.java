@@ -2,7 +2,7 @@ package gameobjects;
 
 public enum ObjectType {
 	
-	Tree( "trad", true, 3), Flower( "blomma", true, 2), Rocket( "raket", true, 4);
+	Tree( "trad", true, 2), Flower( "blomma", true, 1), Rocket( "raket", true, 4);
 	
 	String textureName;
 	boolean buildable;

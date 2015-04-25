@@ -55,10 +55,14 @@ public class Entity extends renderableObj{
 	public void draw(){}
 	
 	
-	protected void move(int dir){
-		this.dir = dir;
-		updateTex();
-		
+	protected void move(float xa, float ya){
+		moving = false;
+		if( !level.getTile(xa + width/2,ya + height/2).solid()&& !outOfBounds(xa, ya)){
+			x = xa;
+			y = ya;
+			z = -Main.HEIGHT + height + 0.5f + ya;
+			moving = true;
+		}	
 	}
 	
 	protected void updateTex() {

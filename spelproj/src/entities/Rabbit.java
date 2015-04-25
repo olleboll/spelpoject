@@ -60,35 +60,26 @@ public class Rabbit extends Entity {
 			right = false;
 			left= false;
 		}
-		boolean moved = false;
-		if(left && !level.getTile(x + width/2- xa,y + height/2).solid()&& !outOfBounds(x - xa, y)){
-			x = x - xa;
+		if(left){
 			dir = 3;
-			setSpeed(level.getTile(x + width/2- xa,y + height/2).getSpeed(speed));
-			moved = true;
+			move(x - xa, y);
+			
 		}
-		if(right && !level.getTile(x + width/2+ xa,y + height/2).solid()&& !outOfBounds(x + xa, y)){
-			x = x + xa;
+		if(right){
 			dir = 2;
-			setSpeed(level.getTile(x + width/2+ xa,y + height/2).getSpeed(speed));
-			moved = true;
+			move(x + xa, y);
+			
 		}
-		if(up && !level.getTile(x + width/2, y + height/2 - ya).solid() && !outOfBounds(x, y - ya)){
-			y = y - ya;
-			z -= ya;
+		if(up){
 			dir = 1;
-			setSpeed(level.getTile(x + width/2,y + height/2 - ya).getSpeed(speed));
-			moved = true;
+			move(x,y - ya);
+			
 		}
-		if(down && !level.getTile(x + width/2, y + height/2 + ya).solid()&& !outOfBounds(x, y + ya)){
-			y = y + ya;
-			z += ya;
+		if(down){
 			dir = 0;
-			System.out.println(level.getTile(x + width/2,y + height/2 + ya).getType());
-			setSpeed(level.getTile(x + width/2,y + height/2 + ya).getSpeed(speed));		
-			moved = true;
+			move(x,y + ya);
+			
 		}
-		moving = moved;
 		updateTex();
 	}
 	

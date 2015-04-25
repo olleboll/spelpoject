@@ -35,27 +35,48 @@ public class Player extends Entity {
 			anim = 0;
 		
 		boolean up, down, left, right;
-		up = Keyboard.isKeyDown(Keyboard.KEY_W);
-		down = Keyboard.isKeyDown(Keyboard.KEY_S);
-		left= Keyboard.isKeyDown(Keyboard.KEY_A);
-		right = Keyboard.isKeyDown(Keyboard.KEY_D);
-		
 		float ya, xa;
 		ya = speed;
 		xa = speed;
+		up = Keyboard.isKeyDown(Keyboard.KEY_W) || Keyboard.isKeyDown(Keyboard.KEY_UP);
+		down = Keyboard.isKeyDown(Keyboard.KEY_S) || Keyboard.isKeyDown(Keyboard.KEY_DOWN);
+		left= Keyboard.isKeyDown(Keyboard.KEY_A) || Keyboard.isKeyDown(Keyboard.KEY_LEFT);
+		right = Keyboard.isKeyDown(Keyboard.KEY_D) || Keyboard.isKeyDown(Keyboard.KEY_RIGHT);
+		moving = false;
+		if(left){
+			dir = 3;
+			move(x - xa, y);
+			
+		}
+		if(right){
+			dir = 2;
+			move(x + xa, y);
+			
+		}
+		if(up){
+			dir = 1;
+			move(x,y - ya);
+			
+		}
+		if(down){
+			dir = 0;
+			move(x,y + ya);
+			
+		}
+		/*
 		boolean moved = false;
 		if(left && !level.getTile(x + width/2- xa,y + height/2).solid()&& !outOfBounds(x - xa, y)){
 			x = x - xa;
 			dir = 3;
 			//move(dir);
-			setSpeed(level.getTile(x + width/2- xa,y + height/2).getSpeed(speed));
+			//setSpeed(level.getTile(x + width/2- xa,y + height/2).getSpeed(speed));
 			moved = true;
 		}
 		if(right && !level.getTile(x + width/2+ xa,y + height/2).solid()&& !outOfBounds(x + xa, y)){
 			x = x + xa;
 			dir = 2;
 			//move(dir);
-			setSpeed(level.getTile(x + width/2+ xa,y + height/2).getSpeed(speed));
+			//setSpeed(level.getTile(x + width/2+ xa,y + height/2).getSpeed(speed));
 			moved = true;
 		}
 		if(up && !level.getTile(x + width/2, y + height/2 - ya).solid() && !outOfBounds(x, y - ya)){
@@ -63,33 +84,19 @@ public class Player extends Entity {
 			z -= ya;
 			dir = 1;
 			//move(dir);
-			setSpeed(level.getTile(x + width/2+ xa,y + height/2).getSpeed(speed));
+			//setSpeed(level.getTile(x + width/2+ xa,y + height/2).getSpeed(speed));
 			moved = true;
 		}
 		if(down && !level.getTile(x + width/2, y + height/2 + ya).solid()&& !outOfBounds(x, y + ya)){
 			y = y + ya;
 			z += ya;
 			dir = 0;
-			setSpeed(level.getTile(x + width/2+ xa,y + height/2).getSpeed(speed));
+			//setSpeed(level.getTile(x + width/2+ xa,y + height/2).getSpeed(speed));
 			moved = true;
 		}
+		moving = moved;*/
 		
-		checkwin();
-		
-		moving = moved;
 		updateTex();
-	}
-	
-	private void checkwin(){
-		Tile t = level.getTile(x + width/2,y + height/2);
-		if(t.obj != null){
-			if(t.obj.get(0).getType() == ObjectType.Rocket){
-				topSpeed = 0;
-				speed = 0;
-				System.out.println("wogooo!!");
-			}
-		}
-		
 	}
 	
 	private boolean collision() {
@@ -172,11 +179,6 @@ public class Player extends Entity {
 	
 	public float getY(){
 		return y;
-	}
-
-	public void setGoal(GameObject rocket) {
-		this.rocket = rocket;
-		
 	}
 
 	

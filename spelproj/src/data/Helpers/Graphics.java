@@ -21,7 +21,7 @@ public class Graphics {
 
 	public static final int WIDTH = Main.WIDTH, HEIGHT = Main.HEIGHT;
 	public static float offsetMaxX, offsetMaxY, offsetMinX, offsetMinY;
-	public static float WorldSizeX = 64 * 64, WorldSizeY = 64 * 64;
+	public static float WorldSizeX, WorldSizeY;
 	private static float camX, camY;
 
 	public static void beginSession() {
@@ -35,26 +35,29 @@ public class Graphics {
 			e.printStackTrace();
 		}
 		glEnable(GL_DEPTH_TEST);
+		Display.setVSyncEnabled(true);
 		//glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-		//glClearDepth(-WorldSizeY);
+		glClearDepth(1);
 		glEnable(GL_TEXTURE_2D);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-		glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		// här bör du fixa djujp i skiten
-		glOrtho(0, WIDTH, HEIGHT, 0, -WorldSizeY - 1, WorldSizeY + 1);
-		// glOrtho(0, WIDTH * WIDTH, HEIGHT * HEIGHT, 0, -HEIGHT -1 , HEIGHT +
-		// 1);
-		glMatrixMode(GL_MODELVIEW);
-
+	}
+	
+	public static void setWorld(int x, int y){
+		WorldSizeX = x*64;
+		WorldSizeY = y*64;
 		offsetMaxX = WorldSizeX - Main.WIDTH;
 		offsetMaxY = WorldSizeY - Main.HEIGHT;
 		offsetMinX = 0;
 		offsetMinY = 0;
 
+		
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+
+		glOrtho(0, WIDTH, HEIGHT, 0, -WorldSizeY - 1, WorldSizeY + 1);
+
+		glMatrixMode(GL_MODELVIEW);
 	}
 
 	public static void setCamera(float x, float y) {
