@@ -23,7 +23,7 @@ public class Rabbit extends Entity {
 
 	public void setPlayer(Player player){
 		this.player = player;
-		z = z - 1.5f;
+		z = z - 2.5f;
 	}
 
 	public void update() {
@@ -48,9 +48,9 @@ public class Rabbit extends Entity {
 		}else if (xs > speed){
 			right = true;
 		}
-		if(ys < -5){
+		if(ys < -speed){
 			up = true;
-		}else if(ys > 5){
+		}else if(ys > speed){
 			down = true;
 		}
 		if(closeto()){
@@ -61,24 +61,35 @@ public class Rabbit extends Entity {
 		}
 		moving = false;
 		if(left){
-			dir = 3;
-			move(x - xa, y);		
+			move(x - xa, y);
+			if(moved){
+				dir = 3;
+			}
 			
 		}
 		if(right){
-			dir = 2;
 			move(x + xa, y);
+			if(moved){
+				dir = 2;
+			}
 		
 		}
 		if(up){
-			dir = 1;
 			move(x,y - ya);
+			if(moved){
+				dir = 1;
+			}
 			
 		}
 		if(down){
-			dir = 0;
 			move(x,y + ya);
+			if(moved){
+				dir = 0;
+			}
 			
+		}
+		if(z == player.getZ()){
+			z+=1;
 		}
 		updateTex();
 	}
@@ -144,7 +155,7 @@ public class Rabbit extends Entity {
 		if (dir == 2) {
 			texture = textures[6];
 			if (moving) {
-				if (anim % 20 < 5) {
+				if (anim % 20 > 5) {
 					texture = textures[7];
 				} else {
 					texture = textures[8];
@@ -163,14 +174,14 @@ public class Rabbit extends Entity {
 			}
 		}
 		
-		
-		
+		width = texture.getImageWidth();
+		height = texture.getImageHeight();
 	}
 	
 	public Texture[] loadTexture(){
 		textures = new Texture[12];
-		textures[0] = QuickLoadEntityTex("kanin_fram");
-		textures[1] = QuickLoadEntityTex("skutt_fram");
+		textures[0] = QuickLoadEntityTex("kanin/kanin_fram");
+		textures[1] = QuickLoadEntityTex("kanin/skutt_fram");
 		textures[2] = QuickLoadEntityTex("kanin/kanin_fram");
 		textures[3] = QuickLoadEntityTex("kanin/kanin_bak");
 		textures[4] = QuickLoadEntityTex("kanin/skutt_bak");

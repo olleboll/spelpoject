@@ -25,6 +25,7 @@ public class Level {
 	protected final int SIZE = 64;
 	protected ArrayList<renderableObj> objects;
 	protected ArrayList<Entity> entities;
+	protected ArrayList<Tile> tiles;
 	protected float camX, camY;
 
 	public Level(String path, int sizeX, int sizeY) {
@@ -105,12 +106,40 @@ public class Level {
 		}
 		return sorted;
 	}
+	
+	protected Tile[][] getVisibleTiles(){
+		Tile[][] VT = new Tile[Main.WIDTH / SIZE + 5][Main.HEIGHT / SIZE + 5 ];
+		int xc = 0;
+		int yc = 0;
+		for(int x = (int) camX / SIZE; x < (int)(camX + Main.WIDTH) / SIZE + 3; x++){
+			
+			for(int y = (int) camY / SIZE; y < (int)(camY + Main.HEIGHT) / SIZE + 3; y++){
+				if(x < 0 || x > SIZEX - 1){
+					xc--;
+					break;
+				}
+				if(y >= 0 && y < SIZEY){
+					VT[xc][yc] = map[x][y];
+					yc++;
+				}
+				
+			}
+			yc = 0;
+			xc++;
+		}
+		
+		return VT;
+	}
 
 	protected void drawTiles() {
-		for (int i = 0; i < SIZEX; i++) {
-			for (int j = 0; j < SIZEY; j++) {
-				Tile t = map[i][j];
-				t.draw();
+		Tile[][] VT = new Tile[Main.WIDTH / SIZE +5][Main.HEIGHT / SIZE +5];
+		VT = getVisibleTiles();
+		for (int x = 0; x < Main.WIDTH / SIZE +5; x++) {
+			for (int y = 0; y < Main.HEIGHT / SIZE +5; y++) {
+				Tile t = VT[x][y];
+				if(t != null){
+					t.draw();
+				}
 			}
 		}
 
@@ -122,7 +151,7 @@ public class Level {
 		return map[xi][yi];
 	}
 	
-	private void setUpEntities() {
+	protected void setUpEntities() {
 
 	}	
 

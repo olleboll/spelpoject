@@ -55,7 +55,7 @@ public class Graphics {
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 
-		glOrtho(0, WIDTH, HEIGHT, 0, -WorldSizeY - 1, WorldSizeY + 1);
+		glOrtho(0, WIDTH, HEIGHT, 0, -WorldSizeY - 1, 1);
 
 		glMatrixMode(GL_MODELVIEW);
 	}

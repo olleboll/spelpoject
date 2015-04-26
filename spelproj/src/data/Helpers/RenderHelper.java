@@ -15,5 +15,10 @@ public class RenderHelper {
 		last = f;
 		return last;
 	}
+	
+	public static int GrassHelper(){
+		int g = rand.nextInt(6);
+		return g;
+	}
 
 }

@@ -1,6 +1,6 @@
 package entities;
 
-import static data.Helpers.Graphics.QuickLoadTileTex;
+import static data.Helpers.Graphics.*;
 
 import org.newdawn.slick.opengl.Texture;
 
@@ -19,14 +19,15 @@ public class Entity extends renderableObj{
 	protected float speed, topSpeed;
 	protected int dir = 0;
 	protected boolean moving = false;
+	protected boolean moved = false;
 	
 	public Entity(float x, float y, float z, float width, float height, Texture texture, Level level){
 		this.x = x;
 		this.y = y;
-		this.z = -Main.HEIGHT + y + height + 0.5f;
-		this.width = width;
-		this.height = height;
+		this.z = -WorldSizeY + y + height + 0.5f;
 		this.textures = loadTexture();
+		this.width = this.texture.getImageWidth();
+		this.height = this.texture.getImageHeight();
 		this.level = level;
 		System.out.println(width);
 		System.out.println(height);
@@ -58,13 +59,16 @@ public class Entity extends renderableObj{
 	
 	
 	protected void move(float xa, float ya){
-		moving = false;
-		if( !level.getTile(xa + width/2,ya + height/2).solid()&& !outOfBounds(xa, ya)){
+		moved = false;
+		if( !level.getTile(xa + width/2,ya + height ).solid()&& !outOfBounds(xa, ya)){
 			x = xa;
 			y = ya;
-			z = -Main.HEIGHT + height + 0.5f + ya;
+			z =  height + 0.5f + ya;
 			moving = true;
-		}	
+			moved = true;
+			setSpeed(level.getTile(xa + width/2,ya + height ).getSpeed(speed));
+		}
+		
 	}
 	
 	protected void updateTex() {

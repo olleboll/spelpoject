@@ -112,11 +112,11 @@ public class RabbitLevel extends Level{
 	}
 
 	
-	private void setUpEntities() {
-		player = new Player(100,78*SIZE, 78*SIZE, 64, 64, null, this);
+	protected void setUpEntities() {
+		player = new Player(7 * SIZE,998*SIZE, 998*SIZE, 64, 64, null, this);
 		objects.add(player);
 		entities.add(player);
-		rabbit = new Rabbit(100,80*SIZE, 80*SIZE, 56, 75, null, this);
+		rabbit = new Rabbit(9 * SIZE,998*SIZE, 998*SIZE, 56, 75, null, this);
 		objects.add(rabbit);
 		entities.add(rabbit);
 		rabbit.setPlayer(player);

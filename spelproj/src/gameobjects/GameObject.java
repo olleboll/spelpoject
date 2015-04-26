@@ -20,7 +20,7 @@ public class GameObject extends renderableObj{
 	public GameObject(float x, float y, float z,  float width, float height, ObjectType type) {
 		this.x = x;
 		this.y = y;
-		this.z = -Main.HEIGHT + y + height + z;
+		this.z = -WorldSizeY + y + height + z;
 		this.width = width;
 		this.height = height;
 		this.type = type;

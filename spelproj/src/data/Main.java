@@ -16,17 +16,17 @@ public class Main {
 	
 	public Level level;
 	public Text text;
-	private String Spawn = "/textures/Level/test.png";
+	private String Spawn = "/textures/Level/trad.png";
 	private String Rabbit = "/textures/Level/rabbit.png";
 	
-	public static final int WIDTH = 900, HEIGHT = WIDTH * 9 / 16;
+	public static final int WIDTH = 1680, HEIGHT = WIDTH * 9 / 16;
 	
 	public Main(){
 		
 		beginSession();
 		
 		
-		level = new RabbitLevel(Rabbit, 64,64);
+		level = new TestLevel(Spawn, 64,64);
 		setWorld(level.SIZEX,level.SIZEY);
 		text = new Text();
 		//level.setPlayerInput(key);

@@ -97,10 +97,6 @@ public class Player extends Entity {
 		
 	}
 
-	private boolean collision() {
-		
-		return false;
-	}
 	
 	public void setSpeed(float s){
 		this.speed = s;
@@ -116,7 +112,7 @@ public class Player extends Entity {
 		if (dir == 0) {
 			texture = textures[0];
 			if (moving) {
-				if (jumpingCounter % 20 > 10) {
+				if (anim % 20 > 10) {
 					texture = textures[1];
 				} else {
 					texture = textures[2];
@@ -137,7 +133,7 @@ public class Player extends Entity {
 		if (dir == 2) {
 			texture = textures[6];
 			if (moving) {
-				if (anim % 20 < 10) {
+				if (anim % 20 > 10) {
 					texture = textures[7];
 				} else {
 					texture = textures[8];
@@ -155,7 +151,8 @@ public class Player extends Entity {
 				}
 			}
 		}
-		
+		width = texture.getImageWidth();
+		height = texture.getImageHeight();
 	}
 	
 	public void updateJumpTex(){
@@ -196,6 +193,8 @@ public class Player extends Entity {
 				}
 			}
 		}
+		width = texture.getImageWidth();
+		height = texture.getImageHeight();
 	}
 	
 	public Texture[] loadTexture(){
