@@ -74,7 +74,7 @@ public class Graphics {
 		glEnd();
 	}
 
-	public static void drawQuadTex(Texture tex, float x, float y, float z,
+	public static void drawQuadObjectTex(Texture tex, float x, float y, float z,
 			float width, float height) {
 		// här också när vi vill ha djup
 		float scalex = 1, scaley = 1;
@@ -97,6 +97,34 @@ public class Graphics {
 		glVertex2f(width, height);
 		glTexCoord2f(0, 1 * scaley);
 		glVertex2f(0, height);
+		glEnd();
+		glLoadIdentity();
+
+	}
+	
+	public static void drawQuadEntityTex(Texture tex, float x, float y, float z,
+			float width, float height) {
+		// här också när vi vill ha djup
+		float scalex = 1, scaley = 1;
+		/*if (width != height) {
+			if (width < height) {
+				scalex = width / height;
+			} else {
+				scaley = height / width;
+			}
+		}*/
+		tex.bind();		
+		glTranslatef(x, y, z);
+		glTranslatef(camX, camY, 0);
+		glBegin(GL_QUADS);
+		glTexCoord2f(0, 0);
+		glVertex2f(0, 0);
+		glTexCoord2f(1 * scalex, 0);
+		glVertex2f(tex.getTextureWidth(), 0);
+		glTexCoord2f(1 * scalex, 1 * scaley);
+		glVertex2f(tex.getTextureWidth(), tex.getTextureHeight());
+		glTexCoord2f(0, 1 * scaley);
+		glVertex2f(0, tex.getTextureHeight());
 		glEnd();
 		glLoadIdentity();
 
@@ -201,7 +229,7 @@ public class Graphics {
 		Texture tex = null;
 		InputStream in = ResourceLoader.getResourceAsStream(path);
 		try {
-			tex = TextureLoader.getTexture(filetype, in,  GL_NEAREST);
+			tex = TextureLoader.getTexture(filetype, in,  GL_LINEAR);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

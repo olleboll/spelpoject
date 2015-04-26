@@ -28,6 +28,8 @@ public class Entity extends renderableObj{
 		this.height = height;
 		this.textures = loadTexture();
 		this.level = level;
+		System.out.println(width);
+		System.out.println(height);
 	}
 	
 	

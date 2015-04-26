@@ -21,7 +21,7 @@ public class Tile {
 	public Tile(float x, float y, float width, float height, TileType type) {
 		this.x = x;
 		this.y = y;
-		this.z = -Main.HEIGHT;
+		this.z = -WorldSizeY;
 		this.width = width;
 		this.height = height;
 		this.type = type;
@@ -40,7 +40,7 @@ public class Tile {
 				drawQuadTexFlip270(texture, x, y, z, width, height);
 			}
 		}else{
-			drawQuadTex(texture, x, y, z, width, height);
+			drawQuadObjectTex(texture, x, y, z, width, height);
 		}
 
 	}

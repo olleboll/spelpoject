@@ -116,7 +116,7 @@ public class RabbitLevel extends Level{
 		player = new Player(100,78*SIZE, 78*SIZE, 64, 64, null, this);
 		objects.add(player);
 		entities.add(player);
-		rabbit = new Rabbit(100,78*SIZE, 78*SIZE, 64, 64, null, this);
+		rabbit = new Rabbit(100,80*SIZE, 80*SIZE, 56, 75, null, this);
 		objects.add(rabbit);
 		entities.add(rabbit);
 		rabbit.setPlayer(player);
@@ -144,7 +144,7 @@ public class RabbitLevel extends Level{
 			} else {
 				zoffH = 1;
 			}
-			zoff = RenderHelper.renderz();
+			zoff = RenderHelper.renderz() * 2;
 			if (levelpixels[x + y * SIZEX] == -20791) {
 				zoff = RenderHelper.renderz()*zoffH;
 				GameObject flower = new GameObject(x * SIZE - 16, y * SIZE  -32, zoff, 54, 64,ObjectType.Flower);

@@ -1,7 +1,6 @@
 package entities;
 
-import static data.Helpers.Graphics.QuickLoadPlayerTex;
-import static data.Helpers.Graphics.drawQuadTex;
+import static data.Helpers.Graphics.*;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.Rectangle;
@@ -24,7 +23,7 @@ public class Rabbit extends Entity {
 
 	public void setPlayer(Player player){
 		this.player = player;
-		z = z - 1;
+		z = z - 1.5f;
 	}
 
 	public void update() {
@@ -60,15 +59,16 @@ public class Rabbit extends Entity {
 			right = false;
 			left= false;
 		}
+		moving = false;
 		if(left){
 			dir = 3;
-			move(x - xa, y);
+			move(x - xa, y);		
 			
 		}
 		if(right){
 			dir = 2;
 			move(x + xa, y);
-			
+		
 		}
 		if(up){
 			dir = 1;
@@ -104,7 +104,7 @@ public class Rabbit extends Entity {
 
 
 	private boolean collision() {
-		
+		 
 		return false;
 	}
 	
@@ -114,7 +114,7 @@ public class Rabbit extends Entity {
 
 	public void draw() {
 		
-		drawQuadTex(texture, x, y, z, width, height);
+		drawQuadEntityTex(texture, x, y, z, width, height);
 		//System.out.println(z);
 	}
 	
@@ -123,7 +123,7 @@ public class Rabbit extends Entity {
 		if (dir == 0) {
 			texture = textures[0];
 			if (moving) {
-				if (anim % 20 > 10) {
+				if (anim % 20 > 5) {
 					texture = textures[1];
 				} else {
 					texture = textures[2];
@@ -134,7 +134,7 @@ public class Rabbit extends Entity {
 		if (dir == 1) {
 			texture = textures[3];
 			if (moving) {
-				if (anim % 20 > 10) {
+				if (anim % 20 > 5) {
 					texture = textures[4];
 				} else {
 					texture = textures[5];
@@ -144,7 +144,7 @@ public class Rabbit extends Entity {
 		if (dir == 2) {
 			texture = textures[6];
 			if (moving) {
-				if (anim % 20 < 10) {
+				if (anim % 20 < 5) {
 					texture = textures[7];
 				} else {
 					texture = textures[8];
@@ -155,30 +155,32 @@ public class Rabbit extends Entity {
 		if (dir == 3) {
 			texture = textures[9];
 			if (moving) {
-				if (anim % 20 > 10) {
+				if (anim % 20 > 5) {
 					texture = textures[10];
 				} else {
 					texture = textures[11];
 				}
 			}
 		}
-		//texture = textures[0];
+		
+		
+		
 	}
 	
 	public Texture[] loadTexture(){
 		textures = new Texture[12];
 		textures[0] = QuickLoadEntityTex("kanin_fram");
-		textures[1] = QuickLoadEntityTex("kanin_fram");
-		textures[2] = QuickLoadEntityTex("kanin_fram");
-		textures[3] = QuickLoadEntityTex("kanin_bak");
-		textures[4] = QuickLoadEntityTex("kanin_bak");
-		textures[5] = QuickLoadEntityTex("kanin_bak");
-		textures[6] = QuickLoadEntityTex("kanin_hoger");
-		textures[7] = QuickLoadEntityTex("kanin_hoger");
-		textures[8] = QuickLoadEntityTex("kanin_hoger");
-		textures[9] = QuickLoadEntityTex("kanin_vanster");
-		textures[10] = QuickLoadEntityTex("kanin_vanster");
-		textures[11] = QuickLoadEntityTex("kanin_vanster");
+		textures[1] = QuickLoadEntityTex("skutt_fram");
+		textures[2] = QuickLoadEntityTex("kanin/kanin_fram");
+		textures[3] = QuickLoadEntityTex("kanin/kanin_bak");
+		textures[4] = QuickLoadEntityTex("kanin/skutt_bak");
+		textures[5] = QuickLoadEntityTex("kanin/skutt_bak_2");
+		textures[6] = QuickLoadEntityTex("kanin/kanin_hoger");
+		textures[7] = QuickLoadEntityTex("kanin/skutt_hoger");
+		textures[8] = QuickLoadEntityTex("kanin/kanin_hoger");
+		textures[9] = QuickLoadEntityTex("kanin/kanin_vanster");
+		textures[10] = QuickLoadEntityTex("kanin/skutt_vanster");
+		textures[11] = QuickLoadEntityTex("kanin/kanin_vanster");
 		texture = textures[0];
 		return textures;
 	}

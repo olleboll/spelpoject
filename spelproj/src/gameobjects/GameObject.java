@@ -29,7 +29,7 @@ public class GameObject extends renderableObj{
 	
 
 	public void draw() {
-		drawQuadTex(texture, x, y, z, width, height);
+		drawQuadObjectTex(texture, x, y, z, width, height);
 		//System.out.println(z);
 	}
 

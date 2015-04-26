@@ -1,6 +1,6 @@
 package entities;
 
-import static data.Helpers.Graphics.drawQuadTex;
+import static data.Helpers.Graphics.*;
 import gameobjects.GameObject;
 import gameobjects.ObjectType;
 
@@ -20,6 +20,7 @@ public class Player extends Entity {
 	public boolean solid = true;
 	private int anim = 0;
 	private GameObject rocket;
+	private Entity animal;
 
 	public Player(float x, float y, float z, float width, float height, Texture texture, Level level) {
 		super(x, y, z, width, height, texture, level);
@@ -34,7 +35,7 @@ public class Player extends Entity {
 		else
 			anim = 0;
 		
-		boolean up, down, left, right;
+		boolean up, down, left, right, jump;
 		float ya, xa;
 		ya = speed;
 		xa = speed;
@@ -42,7 +43,14 @@ public class Player extends Entity {
 		down = Keyboard.isKeyDown(Keyboard.KEY_S) || Keyboard.isKeyDown(Keyboard.KEY_DOWN);
 		left= Keyboard.isKeyDown(Keyboard.KEY_A) || Keyboard.isKeyDown(Keyboard.KEY_LEFT);
 		right = Keyboard.isKeyDown(Keyboard.KEY_D) || Keyboard.isKeyDown(Keyboard.KEY_RIGHT);
+		jump = Keyboard.isKeyDown(Keyboard.KEY_SPACE);
 		moving = false;
+		if(jump){
+			jump();
+		}else{
+			jumpFlag = 0;
+			jumping = false;
+		}
 		if(left){
 			dir = 3;
 			move(x - xa, y);
@@ -63,42 +71,32 @@ public class Player extends Entity {
 			move(x,y + ya);
 			
 		}
-		/*
-		boolean moved = false;
-		if(left && !level.getTile(x + width/2- xa,y + height/2).solid()&& !outOfBounds(x - xa, y)){
-			x = x - xa;
-			dir = 3;
-			//move(dir);
-			//setSpeed(level.getTile(x + width/2- xa,y + height/2).getSpeed(speed));
-			moved = true;
+		if(jumping){
+			updateJumpTex();
+		}else{
+			updateTex();
 		}
-		if(right && !level.getTile(x + width/2+ xa,y + height/2).solid()&& !outOfBounds(x + xa, y)){
-			x = x + xa;
-			dir = 2;
-			//move(dir);
-			//setSpeed(level.getTile(x + width/2+ xa,y + height/2).getSpeed(speed));
-			moved = true;
-		}
-		if(up && !level.getTile(x + width/2, y + height/2 - ya).solid() && !outOfBounds(x, y - ya)){
-			y = y - ya;
-			z -= ya;
-			dir = 1;
-			//move(dir);
-			//setSpeed(level.getTile(x + width/2+ xa,y + height/2).getSpeed(speed));
-			moved = true;
-		}
-		if(down && !level.getTile(x + width/2, y + height/2 + ya).solid()&& !outOfBounds(x, y + ya)){
-			y = y + ya;
-			z += ya;
-			dir = 0;
-			//setSpeed(level.getTile(x + width/2+ xa,y + height/2).getSpeed(speed));
-			moved = true;
-		}
-		moving = moved;*/
 		
-		updateTex();
 	}
 	
+	boolean jumping;
+	int jumpingCounter;
+	int jumpFlag = 0;
+	private void jump() {
+		if(jumpFlag == 0){
+			jumpFlag = 1;
+			jumping = true;
+		}
+		if(jumping && jumpFlag == 1){
+			jumpingCounter++;
+			if(jumpingCounter > 10){
+				jumpingCounter = 0;
+				jumping = false;				
+			}
+		}
+		
+	}
+
 	private boolean collision() {
 		
 		return false;
@@ -110,15 +108,15 @@ public class Player extends Entity {
 
 	public void draw() {
 		
-		drawQuadTex(texture, x, y, z, width, height);
-		//System.out.println(z);
+		drawQuadEntityTex(texture, x, y, z, width, height);
+		
 	}
 	
 	public void updateTex(){
 		if (dir == 0) {
 			texture = textures[0];
 			if (moving) {
-				if (anim % 20 > 10) {
+				if (jumpingCounter % 20 > 10) {
 					texture = textures[1];
 				} else {
 					texture = textures[2];
@@ -157,10 +155,51 @@ public class Player extends Entity {
 				}
 			}
 		}
+		
+	}
+	
+	public void updateJumpTex(){
+		if (dir == 0) {
+			if(jumping){
+				if (jumpingCounter % 20 > 10) {
+					texture = textures[1];
+				} else {
+					texture = textures[2];
+				}
+			}
+		}
+		if (dir == 1) {
+			if(jumping){
+				if (jumpingCounter % 20 > 10) {
+					texture = textures[12];
+				} else {
+					texture = textures[13];
+				}
+			}
+		}
+		if (dir == 2) {
+			if(jumping){
+				if (jumpingCounter % 20 > 10) {
+					texture = textures[15];
+				} else {
+					texture = textures[16];
+				}
+			}
+		}
+
+		if (dir == 3) {
+			if(jumping){
+				if (jumpingCounter % 20 > 10) {
+					texture = textures[18];
+				} else {
+					texture = textures[19];
+				}
+			}
+		}
 	}
 	
 	public Texture[] loadTexture(){
-		textures = new Texture[12];
+		textures = new Texture[24];
 		textures[0] = QuickLoadPlayerTex("spel_fram");
 		textures[1] = QuickLoadPlayerTex("spel_fram_1");
 		textures[2] = QuickLoadPlayerTex("spel_fram_2");
@@ -173,6 +212,20 @@ public class Player extends Entity {
 		textures[9] = QuickLoadPlayerTex("spel_vanster");
 		textures[10] = QuickLoadPlayerTex("spel_vanster_1");
 		textures[11] = QuickLoadPlayerTex("spel_vanster_2");
+		
+		textures[12] = QuickLoadPlayerTex("spel_fram_1");
+		textures[13] = QuickLoadPlayerTex("spel_fram");
+		textures[14] = QuickLoadPlayerTex("spel_fram_2");
+		textures[15] = QuickLoadPlayerTex("spel_bakifran_1");
+		textures[16] = QuickLoadPlayerTex("spel_bakifran");
+		textures[17] = QuickLoadPlayerTex("spel_bakifran_2");
+		textures[18] = QuickLoadPlayerTex("spel_hoger");
+		textures[19] = QuickLoadPlayerTex("spel_hoger_1");
+		textures[20] = QuickLoadPlayerTex("spel_hoger_2");
+		textures[21] = QuickLoadPlayerTex("spel_vanster");
+		textures[22] = QuickLoadPlayerTex("spel_vanster_1");
+		textures[23] = QuickLoadPlayerTex("spel_vanster_2");
+		
 		texture = textures[0];
 		return textures;
 	}
