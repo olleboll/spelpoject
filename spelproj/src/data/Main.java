@@ -5,7 +5,6 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.newdawn.slick.opengl.Texture;
 
-import text.Text;
 import data.level.*;
 import data.tiles.Tile;
 import data.tiles.TileType;
@@ -15,8 +14,7 @@ import static org.lwjgl.opengl.GL11.*;
 public class Main {
 	
 	public Level level;
-	public Text text;
-	private String Spawn = "/textures/Level/trad.png";
+	private String Spawn = "/textures/Level/test2.png";
 	private String Rabbit = "/textures/Level/rabbit.png";
 	
 	public static final int WIDTH = 1680, HEIGHT = WIDTH * 9 / 16;
@@ -28,7 +26,7 @@ public class Main {
 		
 		level = new TestLevel(Spawn, 64,64);
 		setWorld(level.SIZEX,level.SIZEY);
-		text = new Text();
+		
 		//level.setPlayerInput(key);
 		
 		

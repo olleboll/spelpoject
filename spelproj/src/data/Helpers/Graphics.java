@@ -228,6 +228,7 @@ public class Graphics {
 	public static Texture loadTexture(String path, String filetype) {
 		Texture tex = null;
 		InputStream in = ResourceLoader.getResourceAsStream(path);
+		
 		try {
 			tex = TextureLoader.getTexture(filetype, in,  GL_LINEAR);
 		} catch (IOException e) {

@@ -34,7 +34,21 @@ public class Level {
 		
 	}
 	
-	protected void loadLevel(String path){}
+	protected void loadLevel(String path){
+		try {
+			System.out.println(path);
+			BufferedImage image = ImageIO.read(Level.class.getResource(path));
+			int w = image.getWidth();
+			int h = image.getHeight();
+			levelpixels = new int[w * h];
+			System.out.println("laddar in...");
+			image.getRGB(0, 0, w, h, levelpixels, 0, w);
+			setSize(w, h);
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("Exception! could not load level file.");
+		}
+	}
 	
 	protected void setSize(int x, int y){
 		SIZEX = x;

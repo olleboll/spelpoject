@@ -101,11 +101,11 @@ public class Tile {
 			texture = textures[1];
 		}
 
-		if(anim <2* 50 / 4){
-			texture = textures[3];
+		if(anim < 2 * 50 / 4){
+			texture = textures[2];
 		}
 		if(anim <  50 / 4){
-			texture = textures[2];
+			texture = textures[3];
 		}
 		
 	}
@@ -169,10 +169,7 @@ public class Tile {
 	public float getSpeed(float s) {
 		
 		if(obj == null) {
-			if(s <=type.speed){
-				return type.speed;
-			}
-			return s;
+			return type.speed;
 		}
 		return obj.get(0).getSpeed();
 	}
@@ -181,8 +178,7 @@ public class Tile {
 		if(obj == null){
 			obj = new ArrayList<GameObject>();
 		}
-		obj.add(o);
-		
+		obj.add(o);		
 	}
 
 }

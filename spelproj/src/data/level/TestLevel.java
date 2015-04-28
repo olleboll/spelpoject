@@ -28,21 +28,7 @@ public class TestLevel extends Level {
 		super(path, sizex, sizey);
 	}
 
-	protected void loadLevel(String path) {
-		try {
-			System.out.println(path);
-			BufferedImage image = ImageIO.read(Level.class.getResource(path));
-			int w = image.getWidth();
-			int h = image.getHeight();
-			levelpixels = new int[w * h];
-			System.out.println("laddar in...");
-			image.getRGB(0, 0, w, h, levelpixels, 0, w);
-			setSize(w, h);
-		} catch (IOException e) {
-			e.printStackTrace();
-			System.out.println("Exception! could not load level file.");
-		}
-	}
+
 
 	protected void setUpLevel() {
 		map = new Tile[SIZEX][SIZEY];
@@ -122,10 +108,10 @@ public class TestLevel extends Level {
 	}
 
 	protected void setUpEntities() {
-		player = new Player(650, 800, 800, 64, 64, null, this);
+		player = new Player(128, 128, 128, 64, 64, null, this);
 		objects.add(player);
 		entities.add(player);
-		rabbit = new Rabbit(720, 800, 800, 64, 84, null, this);
+		rabbit = new Rabbit(64, 128, 128, 64, 84, null, this);
 		objects.add(rabbit);
 		entities.add(rabbit);
 		rabbit.setPlayer(player);

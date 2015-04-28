@@ -67,8 +67,7 @@ public class Entity extends renderableObj{
 			moving = true;
 			moved = true;
 			setSpeed(level.getTile(xa + width/2,ya + height ).getSpeed(speed));
-		}
-		
+		}		
 	}
 	
 	protected void updateTex() {
