@@ -6,14 +6,16 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.Rectangle;
 import org.newdawn.slick.opengl.Texture;
 
+import data.commands.Command;
+import data.events.Event;
 import data.level.Level;
 import static data.Helpers.Graphics.*;
 
 public class Rabbit extends Entity {
 	
 	public boolean solid = true;
-	private int anim = 0;
 	private Player player;
+	private Command command;
 	
 	public Rabbit(float x, float y, float z, float width, float height,
 			Texture texture, Level level) {
@@ -24,96 +26,21 @@ public class Rabbit extends Entity {
 	public void setPlayer(Player player){
 		this.player = player;
 		z = z - 2.5f;
+		this.command = Command.FollowPlayer;
+	}
+	
+	public void setEvent(Event event){
+		this.event = event;
 	}
 
 	public void update() {
 		
-		if (anim < 7500) {
-			anim++;
+		if(command == Command.FollowPlayer){
+			followPlayer(player);
 		}
-		else
-			anim = 0;
-		
-		boolean up = false;
-		boolean down = false;
-		boolean left = false;
-		boolean right = false;
-		float xa = speed, ya = speed;	
-		float xs = getXDir();
-
-		float ys = getYDir();
-		
-		if(xs < -speed){
-			left = true;
-		}else if (xs > speed){
-			right = true;
-		}
-		if(ys < -speed){
-			up = true;
-		}else if(ys > speed){
-			down = true;
-		}
-		if(closeto()){
-			up = false;
-			down = false;
-			right = false;
-			left= false;
-		}
-		moving = false;
-		if(left){
-			move(x - xa, y);
-			if(moved){
-				dir = 3;
-			}
-			
-		}
-		if(right){
-			move(x + xa, y);
-			if(moved){
-				dir = 2;
-			}
-		
-		}
-		if(up){
-			move(x,y - ya);
-			if(moved){
-				dir = 1;
-			}
-			
-		}
-		if(down){
-			move(x,y + ya);
-			if(moved){
-				dir = 0;
-			}
-			
-		}
-		if(z == player.getZ()){
-			z+=1;
-		}
-		updateTex();
-	}
-	
-	private boolean closeto(){
-		Rectangle r = new Rectangle((int)x, (int)y, (int)width, (int)height);
-		Rectangle p = new Rectangle((int)player.getX() - 25, (int)player.getY() - 25, (int)player.getWidth() + 50, (int)player.getHeight() + 50);
-		if(r.intersects(p) || p.intersects(r) || p.contains(r)){
-			return true;
-		}
-		return false;
-	}
-	
-	private float getXDir() {	
-		return player.getX() - x;
 		
 	}
 	
-	private float getYDir(){
-		return player.getY() - y;
-	}
-
-
-
 	private boolean collision() {
 		 
 		return false;

@@ -1,46 +1,39 @@
 package text;
 
-import static org.lwjgl.opengl.GL11.glTranslatef;
+import org.newdawn.slick.opengl.Texture;
 
-import java.awt.Font;
-
-import org.newdawn.slick.Color;
-import org.newdawn.slick.TrueTypeFont;
-
-import data.Main;
-import data.Helpers.Graphics;
+import entities.Player;
+import static data.Helpers.Graphics.*;
 
 
 public class Text {
 	
-	private TrueTypeFont font;
-	private boolean antiAlias = false;
+	private float x,y,z,width,height;
+	private Texture tex;
+	private String path;
 	
-	public Text(){
+	
+	public Text(String path){
+		this.path = path;
 		init();
+		
 	}
 	
 	public void init() {
-        // load a default java font
-        Font awtFont = new Font("Times New Roman", Font.BOLD, 24);
-        font = new TrueTypeFont(awtFont, antiAlias);
-         
-        // load font from file
-        /*
-        try {
-            InputStream inputStream = ResourceLoader.getResourceAsStream("myfont.ttf");
-             
-            Font awtFont2 = Font.createFont(Font.TRUETYPE_FONT, inputStream);
-            awtFont2 = awtFont2.deriveFont(24f); // set font size
-            font2 = new TrueTypeFont(awtFont2, antiAlias);
-             
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
+		
+		tex = QuickLoad(path);
+		
+		
     }
 	
-	public void draw(){
-		Graphics.drawText(font);
+	public void draw(Player player){
+		x = player.getX() - tex.getImageWidth() / 2;
+		y = player.getY() + tex.getTextureHeight() * 2;
+		z = WorldSizeY;
+		width = tex.getImageWidth();
+		height = tex.getImageHeight();
+		
+		drawQuadEntityTex(tex, x, y, z, width, height);
 	}
 
 }

@@ -13,6 +13,9 @@ import data.Main;
 import data.Helpers.Graphics;
 import data.Helpers.RenderHelper;
 import data.Helpers.renderableObj;
+import data.objectives.Objective;
+import data.objectives.ObjectiveHandler;
+import data.objectives.rabbitlevel.FindRocket;
 import data.tiles.Tile;
 import data.tiles.TileType;
 import entities.Entity;
@@ -23,12 +26,27 @@ public class TestLevel extends Level {
 
 	private Player player;
 	private Rabbit rabbit;
+	private GameObject rocket;
 
 	public TestLevel(String path, int sizex, int sizey) {
 		super(path, sizex, sizey);
 	}
 
-
+	protected void loadLevel(String path) {
+		try {
+			System.out.println(path);
+			BufferedImage image = ImageIO.read(Level.class.getResource(path));
+			int w = image.getWidth();
+			int h = image.getHeight();
+			levelpixels = new int[w * h];
+			System.out.println("laddar in...");
+			image.getRGB(0, 0, w, h, levelpixels, 0, w);
+			setSize(w, h);
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("Exception! could not load level file.");
+		}
+	}
 
 	protected void setUpLevel() {
 		map = new Tile[SIZEX][SIZEY];
@@ -36,6 +54,19 @@ public class TestLevel extends Level {
 		entities = new ArrayList<Entity>();
 		tiles = new ArrayList<Tile>();
 		setUpEntities();
+		setUpEnvironment();
+		setUpObjectives();
+		
+	}
+
+	private void setUpObjectives() {
+		Objective start = new FindRocket(player, rocket.getX(), rocket.getY(), rocket.getWidth(), rocket.getHeight());
+
+		missions = new ObjectiveHandler(start);
+		
+	}
+
+	private void setUpEnvironment() {
 		for (int y = 0; y < SIZEY; y++) {
 			for (int x = 0; x < SIZEX; x++) {
 				// System.out.println(levelpixels[x + y * SIZE]);
@@ -58,6 +89,7 @@ public class TestLevel extends Level {
 				setUpObjects(x, y);
 			}
 		}
+		
 	}
 
 	public void update() {
@@ -70,6 +102,7 @@ public class TestLevel extends Level {
 			Tile t = tiles.get(i);
 			t.update();
 		}
+		missions.update();
 		updateCamera();
 	}
 
@@ -92,9 +125,14 @@ public class TestLevel extends Level {
 	public void draw() {
 		drawTiles();
 		drawObjects();
-
+		drawStory();
 	}
-
+	
+	private void drawStory(){
+		missions.draw();
+		//events.draw();
+	}
+	
 	protected void drawObjects() {
 
 		ArrayList<renderableObj> obj = new ArrayList<renderableObj>();
@@ -108,10 +146,10 @@ public class TestLevel extends Level {
 	}
 
 	protected void setUpEntities() {
-		player = new Player(128, 128, 128, 64, 64, null, this);
+		player = new Player(650, 800, 800, 64, 64, null, this);
 		objects.add(player);
 		entities.add(player);
-		rabbit = new Rabbit(64, 128, 128, 64, 84, null, this);
+		rabbit = new Rabbit(720, 800, 800, 64, 84, null, this);
 		objects.add(rabbit);
 		entities.add(rabbit);
 		rabbit.setPlayer(player);
@@ -121,6 +159,10 @@ public class TestLevel extends Level {
 		rabbit.setTopSpeed(5);
 		camX = player.getX() - Main.WIDTH / 2;
 		camY = player.getY() - Main.HEIGHT / 2;
+	}
+	
+	public void addEntity(Entity e){
+		entities.add(e);
 	}
 
 	// FÄRGER och TILES
@@ -180,6 +222,7 @@ public class TestLevel extends Level {
 			// 64
 			GameObject rocket = new GameObject(x * SIZE - 16, y * SIZE - 128,
 					zoff, 134, 256, ObjectType.Rocket);
+			this.rocket = rocket;
 			map[x][y].setObj(rocket);
 			map[x][y].setSolid(true);
 			// 32

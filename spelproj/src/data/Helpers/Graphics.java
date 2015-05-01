@@ -55,7 +55,7 @@ public class Graphics {
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 
-		glOrtho(0, WIDTH, HEIGHT, 0, -WorldSizeY - 1, 1);
+		glOrtho(0, WIDTH, HEIGHT, 0, -WorldSizeY - 1, 100);
 
 		glMatrixMode(GL_MODELVIEW);
 	}
@@ -228,7 +228,6 @@ public class Graphics {
 	public static Texture loadTexture(String path, String filetype) {
 		Texture tex = null;
 		InputStream in = ResourceLoader.getResourceAsStream(path);
-		
 		try {
 			tex = TextureLoader.getTexture(filetype, in,  GL_LINEAR);
 		} catch (IOException e) {

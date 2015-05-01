@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 import data.Main;
+import data.events.EventsHandler;
+import data.objectives.Objective;
+import data.objectives.ObjectiveHandler;
 import data.tiles.Tile;
 import data.tiles.TileType;
 import entities.Entity;
@@ -27,6 +30,9 @@ public class Level {
 	protected ArrayList<Entity> entities;
 	protected ArrayList<Tile> tiles;
 	protected float camX, camY;
+	protected ObjectiveHandler missions;
+	protected Objective start;
+	protected EventsHandler events;
 
 	public Level(String path, int sizeX, int sizeY) {
 		loadLevel(path);
@@ -34,21 +40,7 @@ public class Level {
 		
 	}
 	
-	protected void loadLevel(String path){
-		try {
-			System.out.println(path);
-			BufferedImage image = ImageIO.read(Level.class.getResource(path));
-			int w = image.getWidth();
-			int h = image.getHeight();
-			levelpixels = new int[w * h];
-			System.out.println("laddar in...");
-			image.getRGB(0, 0, w, h, levelpixels, 0, w);
-			setSize(w, h);
-		} catch (IOException e) {
-			e.printStackTrace();
-			System.out.println("Exception! could not load level file.");
-		}
-	}
+	protected void loadLevel(String path){}
 	
 	protected void setSize(int x, int y){
 		SIZEX = x;

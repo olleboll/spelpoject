@@ -2,7 +2,7 @@ package data.Helpers;
 
 public class renderableObj {
 
-	protected float z, x;
+	public float z, x, y;
 	
 	public float getZ(){
 		return z;
