@@ -64,9 +64,9 @@ public class Entity extends renderableObj{
 	public void draw(){}
 	
 	
-	public void move(float xa, float ya){
+	public void move(float xa, float ya, boolean jumping){
 		moved = false;
-		if( !level.getTile(xa + width/2,ya + height ).solid()&& !outOfBounds(xa, ya)){
+		if( !level.getTile(xa + width/2,ya + height ).solid(jumping)&& !outOfBounds(xa, ya)){
 			x = xa;
 			y = ya;
 			z =  height + 0.5f + ya;
@@ -118,28 +118,28 @@ public class Entity extends renderableObj{
 		}
 		moving = false;
 		if(left){
-			move(x - xa, y);
+			move(x - xa, y, false);
 			if(moved){
 				dir = 3;
 			}
 			
 		}
 		if(right){
-			move(x + xa, y);
+			move(x + xa, y, false);
 			if(moved){
 				dir = 2;
 			}
 		
 		}
 		if(up){
-			move(x,y - ya);
+			move(x,y - ya, false);
 			if(moved){
 				dir = 1;
 			}
 			
 		}
 		if(down){
-			move(x,y + ya);
+			move(x,y + ya, false);
 			if(moved){
 				dir = 0;
 			}

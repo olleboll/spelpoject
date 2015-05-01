@@ -55,7 +55,7 @@ public class TestLevel extends Level {
 		tiles = new ArrayList<Tile>();
 		setUpEntities();
 		setUpEnvironment();
-		setUpObjectives();
+		//setUpObjectives();
 		
 	}
 
@@ -82,6 +82,16 @@ public class TestLevel extends Level {
 
 			}
 		}
+		for (int y = 0; y < SIZEY; y++) {
+			for (int x = 0; x < SIZEX; x++) {
+				// System.out.println(levelpixels[x + y * SIZE]);
+				if (map[x][y].getType() == TileType.Water) {
+					generateWater(x, y);
+				}
+
+			}
+		}
+		
 
 		for (int y = 0; y < SIZEY; y++) {
 			for (int x = 0; x < SIZEX; x++) {
@@ -91,6 +101,8 @@ public class TestLevel extends Level {
 		}
 		
 	}
+
+	
 
 	public void update() {
 
@@ -102,7 +114,7 @@ public class TestLevel extends Level {
 			Tile t = tiles.get(i);
 			t.update();
 		}
-		missions.update();
+		//missions.update();
 		updateCamera();
 	}
 
@@ -129,7 +141,7 @@ public class TestLevel extends Level {
 	}
 	
 	private void drawStory(){
-		missions.draw();
+		//missions.draw();
 		//events.draw();
 	}
 	
@@ -146,10 +158,10 @@ public class TestLevel extends Level {
 	}
 
 	protected void setUpEntities() {
-		player = new Player(650, 800, 800, 64, 64, null, this);
+		player = new Player(71 * SIZE, 27*SIZE, 800, 64, 64, null, this);
 		objects.add(player);
 		entities.add(player);
-		rabbit = new Rabbit(720, 800, 800, 64, 84, null, this);
+		rabbit = new Rabbit(72 * SIZE, 27*SIZE, 800, 64, 84, null, this);
 		objects.add(rabbit);
 		entities.add(rabbit);
 		rabbit.setPlayer(player);
@@ -183,6 +195,7 @@ public class TestLevel extends Level {
 		}
 		zoff = RenderHelper.renderz();
 		if (levelpixels[x + y * SIZEX] == -20791) {
+			// BLOMMOR
 			zoff = RenderHelper.renderz() * zoffH;
 			GameObject flower = new GameObject(x * SIZE - 16, y * SIZE - 32,
 					zoff, 54, 64, ObjectType.Flower);
@@ -206,10 +219,6 @@ public class TestLevel extends Level {
 					54, 64, ObjectType.Flower);
 			objects.add(flower4);
 			map[x][y].setObj(flower4);
-
-		} else if (levelpixels[x + y * SIZEX] == -1621737) {
-			// tree = new GameObject(64, 384, 128, 128, ObjectType.Tree);
-			// objects.add(tree);
 		} else if (levelpixels[x + y * SIZEX] == -4621737) {
 			// TRÄD
 			GameObject tree = new GameObject(x * SIZE - 16, y * SIZE - 84,
@@ -217,23 +226,23 @@ public class TestLevel extends Level {
 			objects.add(tree);
 			map[x][y].setSolid(true);
 			map[x][y].setObj(tree);
-			// map[x + 1][y + 2].setSolid(true);
-		} else if (levelpixels[x + y * SIZEX] == -16777216) {
-			// 64
+		} else if (levelpixels[x + y * SIZEX] == -8421505) {
+			// TRÄD
+			GameObject tree = new GameObject(x * SIZE - 32, y * SIZE - 84,
+					zoff, 88, 128, ObjectType.Tree);
+			objects.add(tree);
+			map[x][y].setObj(tree);
+		}else if (levelpixels[x + y * SIZEX] == -16777216) {
+			// RAKET
 			GameObject rocket = new GameObject(x * SIZE - 16, y * SIZE - 128,
 					zoff, 134, 256, ObjectType.Rocket);
 			this.rocket = rocket;
 			map[x][y].setObj(rocket);
 			map[x][y].setSolid(true);
-			// 32
-			// map[x][y] = new Tile(x * 32, y * 32, 32, 32, TileType.Dirt_ldr);
+
 		}
 
 	}
-
-	// här kan du läsa in på samma sätt som förut tror jag. Kolla din array med
-	// färger och
-	// lägg ut de tiles som motsvarar, busenkelt?
 
 	// FÄRGER och TILES
 	// ljusgrön = -4856291 -> grass
@@ -249,51 +258,40 @@ public class TestLevel extends Level {
 
 	protected void setUpTiles(int x, int y) {
 
-		/*
-		 * for (int i = 0; i < map.length; i++) { for (int j = 0; j <
-		 * map.length; j++) { map[i][j] = new Tile(i * 64, j * 64, 64, 64,
-		 * TileType.Grass); //map[x][y] = levelpixels[x + y * SIZE]; } }
-		 */
-		System.out.println(levelpixels[x + y * SIZEX]);
+		//System.out.println(levelpixels[x + y * SIZEX]);
 		if (levelpixels[x + y * SIZEX] == -20791) {
-			// Tiles.add(x + y * width, Tile.flower);
+			// BLOMMOR/GRÄS
 			map[x][y] = new Tile(x * 64, y * 64, 64, 64, TileType.Grass);
-			// map[x][y] = new Tile(x * 32, y * 32, 32, 32, TileType.Grass);
 
 		} else if (levelpixels[x + y * SIZEX] == -4856291) {
 			// 64
 			map[x][y] = new Tile(x * 64, y * 64, 64, 64, TileType.Grass);
-			// 32
-			// map[x][y] = new Tile(x * 32, y * 32, 32, 32, TileType.Grass);
 
 		} else if (levelpixels[x + y * SIZEX] == -7864299) {
 			// 64
 
 			map[x][y] = new Tile(x * 64, y * 64, 64, 64, TileType.Dirt);
-			// 32
-			// map[x][y] = new Tile(x * 32, y * 32, 32, 32, TileType.Dirt);
+
 
 		} else if (levelpixels[x + y * SIZEX] == -4621737) {
 			// TRÄD
 			map[x][y] = new Tile(x * 64, y * 64, 64, 64, TileType.Grass);
-			// map[x][y] = new Tile(x * 32, y * 32, 32, 32, TileType.Grass);
+
 		}else if (levelpixels[x + y * SIZEX] == -16777216) {
 			// 64
 			map[x][y] = new Tile(x * 64, y * 64, 64, 64, TileType.Dirt);
-			// 32
-			// map[x][y] = new Tile(x * 32, y * 32, 32, 32, TileType.Dirt_ldr);
+
 		} else if (levelpixels[x + y * SIZEX] == -12629812) {
 			// 64
 			map[x][y] = new Tile(x * 64, y * 64, 64, 64, TileType.Water);
 			tiles.add(map[x][y]);
 			map[x][y].setSolid(true);
-			// 32
-			// map[x][y] = new Tile(x * 32, y * 32, 32, 32, TileType.Dirt_ldr);
+			map[x][y].setJumpAbleP(true);
+
 		} else {
 			// 64
+			System.out.println(levelpixels[x + y * SIZEX]);
 			map[x][y] = new Tile(x * 64, y * 64, 64, 64, TileType.Grass);
-			// 32
-			// map[x][y] = new Tile(x * 32, y * 32, 32, 32, TileType.Grass);
 		}
 	}
 
@@ -311,42 +309,71 @@ public class TestLevel extends Level {
 				&& map[x + 1][y].getType() != TileType.Dirt) {
 			if (map[x][y - 1].getType() == TileType.Dirt
 					&& map[x][y + 1].getType() != TileType.Dirt ) {
-				map[x][y] = new Tile(x * 64, y * 64, 64, 64, TileType.Dirt_D4);
+				//map[x][y] = new Tile(x * 64, y * 64, 64+1, 64, TileType.Grass_D4);
+				map[x][y].addTexture(TileType.Grass_D4);
 			} else if (map[x][y + 1].getType() == TileType.Dirt
-					&& map[x - 1][y].getType() != TileType.Dirt_D1
+					&& map[x - 1][y].getType() != TileType.Grass_D1
 					&& map[x][y - 1].getType() != TileType.Dirt
-					&& map[x][y - 1].getType() != TileType.Dirt_D1) {
-				map[x][y] = new Tile(x * 64, y * 64, 64, 64, TileType.Dirt_D1);
+					&& map[x][y - 1].getType() != TileType.Grass_D1) {
+				//map[x][y] = new Tile(x * 64, y * 64, 64+1, 64, TileType.Grass_D1);
+				map[x][y].addTexture(TileType.Grass_D1);
 			}
 		} else if (map[x - 1][y].getType() != TileType.Dirt
 				&& map[x + 1][y].getType() == TileType.Dirt) {
 			if (map[x][y - 1].getType() != TileType.Dirt
 					&& map[x - 1][y].getType() != TileType.Dirt
 					&& map[x][y + 1].getType() == TileType.Dirt
-					&& map[x - 1][y].getType() != TileType.Dirt_D2
-					&& map[x - 1][y].getType() != TileType.Dirt_D3
-					&& map[x][y - 1].getType() != TileType.Dirt_D2) {
-				map[x][y] = new Tile(x * 64, y * 64, 64, 64, TileType.Dirt_D2);
+					&& map[x - 1][y].getType() != TileType.Grass_D2
+					&& map[x - 1][y].getType() != TileType.Grass_D3
+					&& map[x][y - 1].getType() != TileType.Grass_D2) {
+				//map[x][y] = new Tile(x * 64, y * 64, 64+1, 64, TileType.Grass_D2);
+				map[x][y].addTexture(TileType.Grass_D2);
 			} else if (map[x][y + 1].getType() != TileType.Dirt
-					&& map[x - 1][y].getType() != TileType.Dirt_D3
-					&& map[x][y - 1].getType() != TileType.Dirt_D3
+					&& map[x - 1][y].getType() != TileType.Grass_D3
+					&& map[x][y - 1].getType() != TileType.Grass_D3
 					&& map[x][y - 1].getType() == TileType.Dirt) {
-				map[x][y] = new Tile(x * 64, y * 64, 64, 64, TileType.Dirt_D3);
+				//map[x][y] = new Tile(x * 64, y * 64, 64+1, 64, TileType.Grass_D3);
+				map[x][y].addTexture(TileType.Grass_D3);
 			}
 		}
-		/*
-		 * if (levelpixels[x + y * SIZEX] == -14066) { // 64 map[x][y] = new
-		 * Tile(x * 64, y * 64, 64, 64, TileType.Dirt_D1); // 32 //map[x][y] =
-		 * new Tile(x * 32, y * 32, 32, 32, TileType.Dirt_ldr); }else if
-		 * (levelpixels[x + y * SIZEX] == -3947581) { // 64 map[x][y] = new
-		 * Tile(x * 64, y * 64, 64, 64, TileType.Dirt_D2); // 32 //map[x][y] =
-		 * new Tile(x * 32, y * 32, 32, 32, TileType.Dirt_ldr); }else if
-		 * (levelpixels[x + y * SIZEX] == -8421505) { // 64 map[x][y] = new
-		 * Tile(x * 64, y * 64, 64, 64, TileType.Dirt_D3); // 32 //map[x][y] =
-		 * new Tile(x * 32, y * 32, 32, 32, TileType.Dirt_ldr); }else if
-		 * (levelpixels[x + y * SIZEX] == -1055568) { // 64 map[x][y] = new
-		 * Tile(x * 64, y * 64, 64, 64, TileType.Dirt_D4); // 32 //map[x][y] =
-		 * new Tile(x * 32, y * 32, 32, 32, TileType.Dirt_ldr); }
-		 */
+	}
+	
+	private void generateWater(int x, int y) {
+		if((x <= 0 || y <= 0) || (x >= SIZEX || y >= SIZEY)){
+			return;
+		}
+		
+		if (map[x - 1][y].getType() == TileType.Water
+				&& map[x + 1][y].getType() != TileType.Water) {
+			if (map[x][y - 1].getType() == TileType.Water
+					&& map[x][y + 1].getType() != TileType.Water ) {
+				//map[x][y] = new Tile(x * 64, y * 64, 64+1, 64, TileType.Grass_D4);
+				map[x][y].addTexture(TileType.Grass_D4);
+			} else if (map[x][y + 1].getType() == TileType.Water
+					&& map[x - 1][y].getType() != TileType.Grass_D1
+					&& map[x][y - 1].getType() != TileType.Water
+					&& map[x][y - 1].getType() != TileType.Grass_D1) {
+				//map[x][y] = new Tile(x * 64, y * 64, 64+1, 64, TileType.Grass_D1);
+				map[x][y].addTexture(TileType.Grass_D1);
+			}
+		} else if (map[x - 1][y].getType() != TileType.Water
+				&& map[x + 1][y].getType() == TileType.Water) {
+			if (map[x][y - 1].getType() != TileType.Water
+					&& map[x - 1][y].getType() != TileType.Water
+					&& map[x][y + 1].getType() == TileType.Water
+					&& map[x - 1][y].getType() != TileType.Grass_D2
+					&& map[x - 1][y].getType() != TileType.Grass_D3
+					&& map[x][y - 1].getType() != TileType.Grass_D2) {
+				//map[x][y] = new Tile(x * 64, y * 64, 64+1, 64, TileType.Grass_D2);
+				map[x][y].addTexture(TileType.Grass_D2);
+			} else if (map[x][y + 1].getType() != TileType.Water
+					&& map[x - 1][y].getType() != TileType.Grass_D3
+					&& map[x][y - 1].getType() != TileType.Grass_D3
+					&& map[x][y - 1].getType() == TileType.Water) {
+				//map[x][y] = new Tile(x * 64, y * 64, 64+1, 64, TileType.Grass_D3);
+				map[x][y].addTexture(TileType.Grass_D3);
+			}
+		}
+		
 	}
 }

@@ -15,14 +15,15 @@ import static org.lwjgl.opengl.GL11.*;
 public class Main {
 	
 	public Level level;
+	public int updates;
 	public Text text;
-	private String Spawn = "/textures/Level/test2.png";
+	private String Spawn = "/textures/Level/stortest.png";
 	private String Rabbit = "/textures/Level/rabbit.png";
 	
 	public static final int WIDTH = 1680, HEIGHT = WIDTH * 9 / 16;
 	
 	public Main(){
-		
+		updates = 0;
 		beginSession();
 		
 		
@@ -34,7 +35,7 @@ public class Main {
 		/*long lastTime = System.nanoTime();
 		final double ns = 1000000000.0 / 60.0;
 		double delta = 0;
-*/
+*/		
 		while(!Display.isCloseRequested()){
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			/*
@@ -52,6 +53,8 @@ public class Main {
 			
 			Display.update();
 			Display.sync(60);
+			//updates++;
+			
 			
 			
 		}

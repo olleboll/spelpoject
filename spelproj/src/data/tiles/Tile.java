@@ -16,8 +16,11 @@ public class Tile {
 	private float x, y, z, width, height;
 	private Texture texture;
 	private Texture[] textures;
-	private TileType type;
+	private Texture texture2;
+	private TileType type, type2;
 	private boolean solid = false;
+	private boolean jumpableP = false;
+	private boolean jumpableR = false;
 	public ArrayList<GameObject> obj;
 	
 	private int anim = 0;
@@ -31,6 +34,14 @@ public class Tile {
 		this.height = height;
 		this.type = type;
 		this.textures = LoadTextures();
+		this.texture2 = null;
+		this.type2 = null;
+	}
+	
+	public void addTexture(TileType tile2){
+		this.type2 = tile2;
+		this.texture2 = QuickLoadTileTex(type2.textureName);
+		
 	}
 	
 	private Texture[] LoadTextures(){
@@ -84,6 +95,21 @@ public class Tile {
 		}else{
 			drawQuadObjectTex(texture, x, y, z, width, height);
 		}
+		if(texture2 != null){
+			if (type2.flip != 0) {
+				if (type2.flip == 1) {
+					drawQuadTexFlip90(texture2, x, y, z+1, width, height);
+				}
+				if (type2.flip == 2) {
+					drawQuadTexFlip180(texture2, x, y, z+1, width, height);
+				}
+				if (type2.flip == 3) {
+					drawQuadTexFlip270(texture2, x, y, z+1, width, height);
+				}
+			}else{
+				drawQuadObjectTex(texture2, x, y, z+1, width, height);
+			}
+		}
 
 	}
 	
@@ -109,12 +135,21 @@ public class Tile {
 		}
 		
 	}
-
-	public void setSolid(boolean s) {
-		solid = s;
+	
+	public void setJumpAbleP(boolean jumpable){
+		this.jumpableP = jumpable;
 	}
 
-	public boolean solid() {
+	public void setSolid(boolean s) {
+		this.solid = s;
+	}
+
+	public boolean solid(boolean jumping) {
+		if(jumping){
+			if(jumpableP){
+				return false;
+			}
+		}
 		return solid;
 	}
 

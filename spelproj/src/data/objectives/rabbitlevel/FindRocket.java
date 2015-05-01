@@ -24,7 +24,7 @@ public class FindRocket extends Objective{
 	}
 	
 	protected void init(ObjectiveHandler missions){
-		objtext = new Text(textpath);
+		//objtext = new Text(textpath);
 		this.missions = missions;
 		
 	}
