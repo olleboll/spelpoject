@@ -204,10 +204,7 @@ public class Tile {
 	public float getSpeed(float s) {
 		
 		if(obj == null) {
-			if(s <=type.speed){
-				return type.speed;
-			}
-			return s;
+			return type.speed;
 		}
 		return obj.get(0).getSpeed();
 	}

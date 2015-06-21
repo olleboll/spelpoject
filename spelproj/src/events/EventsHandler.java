@@ -1,4 +1,4 @@
-package data.events;
+package events;
 
 public class EventsHandler {
 	

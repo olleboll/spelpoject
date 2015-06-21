@@ -1,4 +1,4 @@
-package data.objectives;
+package objectives;
 
 public class Objective {
 	

@@ -1,8 +1,8 @@
-package data.commands;
+package commands;
 
 public enum Command {
 	
-	FollowPlayer();
+	FollowPlayer(), Ride(), Mounted();
 
 	Command() {
 		

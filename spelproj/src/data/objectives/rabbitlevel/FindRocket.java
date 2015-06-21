@@ -1,10 +1,11 @@
 package data.objectives.rabbitlevel;
 
+import objectives.Objective;
+import objectives.ObjectiveHandler;
+
 import org.lwjgl.util.Rectangle;
 
 import text.Text;
-import data.objectives.Objective;
-import data.objectives.ObjectiveHandler;
 import entities.Player;
 
 public class FindRocket extends Objective{

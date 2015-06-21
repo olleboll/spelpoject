@@ -1,7 +1,9 @@
-package data.level;
+package level;
 
 import gameobjects.GameObject;
 import gameobjects.ObjectType;
+import inventory.Inventory;
+import inventory.items.Helmet;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -9,12 +11,14 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
+import commands.Command;
+
+import objectives.Objective;
+import objectives.ObjectiveHandler;
 import data.Main;
 import data.Helpers.Graphics;
 import data.Helpers.RenderHelper;
 import data.Helpers.renderableObj;
-import data.objectives.Objective;
-import data.objectives.ObjectiveHandler;
 import data.objectives.rabbitlevel.FindRocket;
 import data.tiles.Tile;
 import data.tiles.TileType;
@@ -27,6 +31,7 @@ public class TestLevel extends Level {
 	private Player player;
 	private Rabbit rabbit;
 	private GameObject rocket;
+	private Helmet helmet;
 
 	public TestLevel(String path, int sizex, int sizey) {
 		super(path, sizex, sizey);
@@ -56,6 +61,28 @@ public class TestLevel extends Level {
 		setUpEntities();
 		setUpEnvironment();
 		//setUpObjectives();
+		
+	}
+	
+	protected void setUpEntities() {
+		player = new Player(5 * SIZE, 2*SIZE, 800, 64, 64, null, this);
+		player.init();
+		objects.add(player);
+		entities.add(player);
+		rabbit = new Rabbit(5 * SIZE, 2*SIZE, 800, 64, 84, null, this);
+		objects.add(rabbit);
+		entities.add(rabbit);
+		rabbit.setPlayer(player);
+		player.setAnimal(rabbit);
+		rabbit.setCommand(Command.FollowPlayer);
+		player.setSpeed(3);
+		rabbit.setSpeed(3);
+		player.setTopSpeed(5);
+		rabbit.setTopSpeed(5);
+		camX = player.getX() - Main.WIDTH / 2;
+		camY = player.getY() - Main.HEIGHT / 2;
+		helmet = new Helmet(7*SIZE, 3*SIZE, player);
+			
 		
 	}
 
@@ -115,6 +142,7 @@ public class TestLevel extends Level {
 			t.update();
 		}
 		//missions.update();
+		helmet.update();
 		updateCamera();
 	}
 
@@ -137,7 +165,12 @@ public class TestLevel extends Level {
 	public void draw() {
 		drawTiles();
 		drawObjects();
+		drawItems();
 		drawStory();
+	}
+	
+	private void drawItems(){
+		helmet.draw();
 	}
 	
 	private void drawStory(){
@@ -157,21 +190,7 @@ public class TestLevel extends Level {
 
 	}
 
-	protected void setUpEntities() {
-		player = new Player(71 * SIZE, 27*SIZE, 800, 64, 64, null, this);
-		objects.add(player);
-		entities.add(player);
-		rabbit = new Rabbit(72 * SIZE, 27*SIZE, 800, 64, 84, null, this);
-		objects.add(rabbit);
-		entities.add(rabbit);
-		rabbit.setPlayer(player);
-		player.setSpeed(3);
-		rabbit.setSpeed(3);
-		player.setTopSpeed(5);
-		rabbit.setTopSpeed(5);
-		camX = player.getX() - Main.WIDTH / 2;
-		camY = player.getY() - Main.HEIGHT / 2;
-	}
+	
 	
 	public void addEntity(Entity e){
 		entities.add(e);

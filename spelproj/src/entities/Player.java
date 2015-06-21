@@ -1,6 +1,8 @@
 package entities;
 
 import static data.Helpers.Graphics.*;
+import inventory.Inventory;
+import level.Level;
 import gameobjects.GameObject;
 import gameobjects.ObjectType;
 
@@ -9,8 +11,10 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.util.Rectangle;
 import org.newdawn.slick.opengl.Texture;
 
+import commands.Command;
+
+import data.Main;
 import data.Helpers.Graphics;
-import data.level.Level;
 import data.tiles.Tile;
 import static data.Helpers.Graphics.*;
 
@@ -23,18 +27,31 @@ public class Player extends Entity {
 	private GameObject rocket;
 	private Entity animal;
 	private Texture[] texturesM;
+	private Inventory inventory;
 	
 	boolean jumping = false;
 	int jumpingCounter;
 	int jumpFlag = 0;
 	private boolean mounted;
+	private boolean riding = false;
 
 	public Player(float x, float y, float z, float width, float height, Texture texture, Level level) {
 		super(x, y, z, width, height, texture, level);
 		// TODO Auto-generated constructor stub
 	}
+	
+	public void init(){
+		this.inventory = new Inventory();
+	}
 
 	public void update() {
+		
+		// Det är jävligt mycket fel och skit här nu... måste strukturera om
+		// planen är att update i player ska ta hand om allt. djuren ska bara ha commands... commands bestäms här!
+		// vet inte om det är så efektivt men det är nog enklast. 
+		
+		// Det är knas här, och i rabbit och i entity. Spåra skiten via update.. det är typ där allt händer
+		// bara att gå igenom sevensvis så har du det!
 		
 		if (anim < 7500) {
 			anim++;
@@ -52,9 +69,24 @@ public class Player extends Entity {
 		right = Keyboard.isKeyDown(Keyboard.KEY_D) || Keyboard.isKeyDown(Keyboard.KEY_RIGHT);
 		jump = Keyboard.isKeyDown(Keyboard.KEY_SPACE);
 		mount = Mouse.isButtonDown(0);
-
+		
 		
 		moving = false;
+		if(riding){
+			up = true;
+			down = false;
+			mount = false;
+			setMounted(animal, true, 10);
+			moving = true;
+		}
+		
+		if(mount){
+			mount(mount);
+		}else{
+			mountflag = false;
+		}
+		
+		
 		if(jump){
 			jump();
 		}else{
@@ -87,13 +119,35 @@ public class Player extends Entity {
 		}else if(jumping){
 			updateJumpTex();
 		}else{
+			setSpeed(level.getTile(x + xa + width/2,y + ya + height ).getSpeed(speed));
 			updateTex();
 		}
 		
 	}
 	
 
-	
+	boolean mountflag = false;
+	private void mount(boolean mount) {
+		if(mount){
+			Entity a = animal;
+			int Mx = -(int)getCamX() + Mouse.getX();
+			int My = -(int)getCamY() + (Main.HEIGHT - Mouse.getY());
+			Rectangle r = new Rectangle((int)a.getX(), (int)a.getY(), (int)a.getWidth(), (int)a.getHeight());
+			if(r.contains(Mx, My) && !mountflag){
+				if(!mounted){
+					mounted = true;
+					setMounted(a, mounted, a.mountspeed);
+					mountflag = true;
+				}else{
+					mounted = false;
+					setMounted(a, mounted, a.dismountspeed);
+					mountflag = true;
+				}
+			}
+		}
+		
+	}
+
 	private void jump() {
 		if(jumpFlag == 0){
 			jumpFlag = 1;
@@ -112,6 +166,39 @@ public class Player extends Entity {
 	
 	public void setSpeed(float s){
 		this.speed = s;
+	}
+	
+	public float getY(){
+		return y;
+	}
+
+	public void setMounted(Entity a, boolean mounted, int speed) {
+		this.animal = a;
+		this.mounted = mounted;
+		if(mounted){
+			a.setCommand(Command.Mounted);
+		}else{
+			
+			a.setCommand(Command.FollowPlayer);
+		}	
+		setSpeed(speed);
+		
+	}
+
+	public Inventory getInventory() {
+		// TODO Auto-generated method stub
+		return inventory;
+	}
+
+	public void riding(boolean b) {
+		this.riding = b;
+		
+		
+	}
+
+	public void setAnimal(Entity e) {
+		animal = e;
+		
 	}
 
 	public void draw() {
@@ -300,25 +387,16 @@ public class Player extends Entity {
 		texturesM[3] = QuickLoadPlayerTex("saga_kanin_bak");
 		texturesM[4] = QuickLoadPlayerTex("saga_kanin_skutt_bak_1");
 		texturesM[5] = QuickLoadPlayerTex("saga_kanin_skutt_bak_2");
-		texturesM[6] = QuickLoadPlayerTex("spel_hoger");
-		texturesM[7] = QuickLoadPlayerTex("spel_hoger_1");
-		texturesM[8] = QuickLoadPlayerTex("spel_hoger_2");
-		texturesM[9] = QuickLoadPlayerTex("spel_vanster");
-		texturesM[10] = QuickLoadPlayerTex("spel_vanster_1");
-		texturesM[11] = QuickLoadPlayerTex("spel_vanster_2");
+		texturesM[6] = QuickLoadPlayerTex("saga_kanin_hoger");
+		texturesM[7] = QuickLoadPlayerTex("saga_kanin_skutt_hoger_1");
+		texturesM[8] = QuickLoadPlayerTex("saga_kanin_hoger");
+		texturesM[9] = QuickLoadPlayerTex("saga_kanin_vanster");
+		texturesM[10] = QuickLoadPlayerTex("saga_kanin_skutt_vanster_1");
+		texturesM[11] = QuickLoadPlayerTex("saga_kanin_vanster");
 		return texturesM;
 	}
 	
-	public float getY(){
-		return y;
-	}
-
-	public void setMounted(Rabbit rabbit, boolean mounted, int speed) {
-		this.animal = rabbit;
-		this.mounted = mounted;
-		setSpeed(speed);
-		
-	}
+	
 
 	
 

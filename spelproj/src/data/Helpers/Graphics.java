@@ -61,8 +61,8 @@ public class Graphics {
 	}
 
 	public static void setCamera(float x, float y) {
-		camX = x;
-		camY = y;
+		setCamX(x);
+		setCamY(y);
 	}
 
 	public static void drawQuads(float x, float y, float width, float height) {
@@ -87,7 +87,7 @@ public class Graphics {
 		}
 		tex.bind();		
 		glTranslatef(x, y, z);
-		glTranslatef(camX, camY, 0);
+		glTranslatef(getCamX(), getCamY(), 0);
 		glBegin(GL_QUADS);
 		glTexCoord2f(0, 0);
 		glVertex2f(0, 0);
@@ -115,7 +115,7 @@ public class Graphics {
 		}*/
 		tex.bind();		
 		glTranslatef(x, y, z);
-		glTranslatef(camX, camY, 0);
+		glTranslatef(getCamX(), getCamY(), 0);
 		glBegin(GL_QUADS);
 		glTexCoord2f(0, 0);
 		glVertex2f(0, 0);
@@ -143,7 +143,7 @@ public class Graphics {
 		}
 
 		tex.bind();
-		glTranslatef(camX, camY, 0);
+		glTranslatef(getCamX(), getCamY(), 0);
 		glTranslatef(x, y, z);
 		glBegin(GL_QUADS);
 		glTexCoord2f(1 * scalex, 0);
@@ -172,7 +172,7 @@ public class Graphics {
 		}
 
 		tex.bind();
-		glTranslatef(camX, camY, 0);
+		glTranslatef(getCamX(), getCamY(), 0);
 		glTranslatef(x, y, z);
 		glBegin(GL_QUADS);
 		glTexCoord2f(1 * scalex, 1 * scaley);
@@ -201,7 +201,7 @@ public class Graphics {
 		}
 
 		tex.bind();
-		glTranslatef(camX, camY, 0);
+		glTranslatef(getCamX(), getCamY(), 0);
 		glTranslatef(x, y, z);
 		glBegin(GL_QUADS);
 		glTexCoord2f(0, 1 * scaley);
@@ -265,6 +265,22 @@ public class Graphics {
 		Texture tex = null;
 		tex = loadTexture("res\\textures\\tiles\\" + name + ".png", "PNG");
 		return tex;
+	}
+
+	public static float getCamX() {
+		return camX;
+	}
+
+	public static void setCamX(float camX) {
+		Graphics.camX = camX;
+	}
+
+	public static float getCamY() {
+		return camY;
+	}
+
+	public static void setCamY(float camY) {
+		Graphics.camY = camY;
 	}
 
 }

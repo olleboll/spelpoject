@@ -1,7 +1,7 @@
-package data.events.rabbitlevel;
+package rabbitlevel;
 
-import data.events.Event;
 import entities.Rabbit;
+import events.Event;
 
 public class RabbitIntro extends Event{
 	

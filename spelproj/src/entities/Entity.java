@@ -1,15 +1,17 @@
 package entities;
 
 import static data.Helpers.Graphics.*;
+import level.Level;
 
 import org.lwjgl.util.Rectangle;
 import org.newdawn.slick.opengl.Texture;
 
+import commands.Command;
+
 import data.Main;
 import data.Helpers.Graphics;
 import data.Helpers.renderableObj;
-import data.events.Event;
-import data.level.Level;
+import events.Event;
 
 public class Entity extends renderableObj{
 	
@@ -26,6 +28,9 @@ public class Entity extends renderableObj{
 	public boolean moved = false;
 	protected Event event;
 	public int anim;
+	public int mountspeed;
+	public int dismountspeed;
+	protected Command command;
 	
 	public Entity(float x, float y, float z, float width, float height, Texture texture, Level level){
 		this.x = x;
@@ -35,10 +40,14 @@ public class Entity extends renderableObj{
 		this.width = this.texture.getImageWidth();
 		this.height = this.texture.getImageHeight();
 		this.level = level;
+		setSpeeds();
 		System.out.println(width);
 		System.out.println(height);
 	}
 	
+	protected void setSpeeds(){
+		
+	}
 	
 
 	protected Texture[] loadTexture(){
@@ -63,6 +72,9 @@ public class Entity extends renderableObj{
 	
 	public void draw(){}
 	
+	public void setCommand(Command c){
+		this.command = c;
+	}
 	
 	public void move(float xa, float ya, boolean jumping){
 		moved = false;
@@ -72,11 +84,13 @@ public class Entity extends renderableObj{
 			z =  height + 0.5f + ya;
 			moving = true;
 			moved = true;
-			setSpeed(level.getTile(xa + width/2,ya + height ).getSpeed(speed));
+			//setSpeed(level.getTile(xa + width/2,ya + height ).getSpeed(speed));
+			
 		}
 		
 	}
 	
+	//Command
 	public void followPlayer(Player player){
 		if (anim < 7500) {
 			anim++;
@@ -149,7 +163,35 @@ public class Entity extends renderableObj{
 			z+=1;
 		}
 		updateTex();
+		setSpeed(player.speed);
 		
+	}
+	
+	//Command
+	public void Ride(Player player){
+		
+		if (anim < 7500) {
+			anim++;
+		}
+		else{
+			anim = 0;
+		}
+		moving = true;
+		moved = true;
+		
+		move(x,y + speed, true);
+		player.updateTex();
+		
+	}
+	
+	//Command
+	public void mounted(Player player){	
+			x = player.x;
+			y = player.y;
+			z = player.z;
+			width = player.getWidth();
+			height = player.getHeight();
+			return;
 	}
 	
 	private boolean closeto(Player player){
@@ -185,6 +227,10 @@ public class Entity extends renderableObj{
 	}
 	public float getHeight(){
 		return height;
+	}
+
+	public float getY() {
+		return y;
 	}
 
 }

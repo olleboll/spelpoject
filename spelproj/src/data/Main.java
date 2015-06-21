@@ -1,12 +1,15 @@
 package data;
 
+import level.Level;
+import level.RabbitLevel;
+import level.TestLevel;
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.newdawn.slick.opengl.Texture;
 
 import text.Text;
-import data.level.*;
 import data.tiles.Tile;
 import data.tiles.TileType;
 import static data.Helpers.Graphics.*;
@@ -17,10 +20,10 @@ public class Main {
 	public Level level;
 	public int updates;
 	public Text text;
-	private String Spawn = "/textures/Level/stortest.png";
-	private String Rabbit = "/textures/Level/rabbit.png";
+	private static String Spawn = "/textures/Level/stortest.png";
+	private static String Rabbit = "/textures/Level/RabbitLevel.png";
 	
-	public static final int WIDTH = 1680, HEIGHT = WIDTH * 9 / 16;
+	public static final int WIDTH = 1200, HEIGHT = WIDTH * 9 / 16;
 	
 	public Main(){
 		updates = 0;

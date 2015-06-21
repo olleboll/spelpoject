@@ -1,6 +1,6 @@
-package data.events;
+package events;
 
-import data.objectives.ObjectiveHandler;
+import objectives.ObjectiveHandler;
 
 public class Event {
 	

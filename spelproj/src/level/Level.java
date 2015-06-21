@@ -1,4 +1,4 @@
-package data.level;
+package level;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -7,15 +7,15 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
+import objectives.Objective;
+import objectives.ObjectiveHandler;
 import data.Main;
-import data.events.EventsHandler;
-import data.objectives.Objective;
-import data.objectives.ObjectiveHandler;
 import data.tiles.Tile;
 import data.tiles.TileType;
 import entities.Entity;
 import entities.Player;
 import entities.Rabbit;
+import events.EventsHandler;
 import gameobjects.GameObject;
 import gameobjects.ObjectType;
 import data.Helpers.*;

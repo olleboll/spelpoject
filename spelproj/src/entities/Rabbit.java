@@ -1,25 +1,24 @@
 package entities;
 
 import static data.Helpers.Graphics.*;
+import level.Level;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.Rectangle;
 import org.newdawn.slick.opengl.Texture;
 
-import data.commands.Command;
-import data.events.Event;
-import data.level.Level;
+import commands.Command;
+import data.Main;
+import events.Event;
 import static data.Helpers.Graphics.*;
 
 public class Rabbit extends Entity {
 	
 	public boolean solid = true;
 	private Player player;
-	private Command command;
 	private boolean mounted;
-	private int mountspeed = 6;
-	private int dismountspeed = 3;
+	
 	
 	public Rabbit(float x, float y, float z, float width, float height,
 			Texture texture, Level level) {
@@ -30,7 +29,12 @@ public class Rabbit extends Entity {
 	public void setPlayer(Player player){
 		this.player = player;
 		z = z - 2.5f;
-		this.command = Command.FollowPlayer;
+		
+	}
+	
+	protected void setSpeeds(){
+		this.mountspeed = 6;
+		this.dismountspeed = 3;
 	}
 	
 	public void setEvent(Event event){
@@ -38,30 +42,25 @@ public class Rabbit extends Entity {
 	}
 
 	public void update() {
-		
-		boolean mount = Mouse.isButtonDown(0);
-		
-		mount(mount);
-		
-		if(mounted){
-			x = player.x;
-			y = player.y;
-			z = player.z;
-			return;
+		if(command == Command.Mounted){
+			mounted(player);
 		}
-		
-		if(command == Command.FollowPlayer){
+		else if(command == Command.FollowPlayer){
 			followPlayer(player);
+		}else if(command == Command.Ride){
+			//mount(true);
+			player.riding(true);
+			Ride(player);
 		}
 		
 	}
-	boolean mountflag = false;
+	/*boolean mountflag = false;
 	private void mount(boolean mount) {
 		if(mount){
-			int x = Mouse.getX();
-			int y = Mouse.getY();
+			int Mx = -(int)getCamX() + Mouse.getX();
+			int My = -(int)getCamY() + (Main.HEIGHT - Mouse.getY());
 			Rectangle r = new Rectangle((int)x, (int)y, (int)width, (int)height);
-			if(r.contains(x, y) && !mountflag){
+			if(r.contains(Mx, My) && !mountflag){
 				if(!mounted){
 					mounted = true;
 					player.setMounted(this, mounted, mountspeed);
@@ -76,7 +75,7 @@ public class Rabbit extends Entity {
 			mountflag = false;
 		}
 		
-	}
+	}*/
 
 	private boolean collision() {
 		 
@@ -88,8 +87,10 @@ public class Rabbit extends Entity {
 	}
 
 	public void draw() {
+		if(!mounted){
+			drawQuadEntityTex(texture, x, y, z, width, height);
+		}
 		
-		drawQuadEntityTex(texture, x, y, z, width, height);
 		//System.out.println(z);
 	}
 	
@@ -160,9 +161,7 @@ public class Rabbit extends Entity {
 		return textures;
 	}
 	
-	public float getY(){
-		return y;
-	}
+	
 
 	
 
